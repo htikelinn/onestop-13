@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class ShoppingCart implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -44,13 +47,5 @@ public class ShoppingCart implements Serializable{
 		return items.values().stream()
 				.mapToInt(a -> a.getTotal())
 				.sum();
-	}
-	
-	public Map<Integer, ShoppingCartItem> getItems() {
-		return items;
-	}
-	
-	public void setItems(Map<Integer, ShoppingCartItem> items) {
-		this.items = items;
 	}
 }
