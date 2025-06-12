@@ -1,0 +1,16 @@
+1	Drinks	Coke	800
+2	Drinks	Pepsi	800
+3	Drinks	7Up	800
+4	Drinks	Myanar	1800
+5	Drinks	Tiger	2000
+6	Drinks	Tubo	1900
+7	Snacks	Potato Chips	1500
+8	Snacks	Fish Chips	1200
+9	Snacks	Pwint Phyu	500
+10	Snacks	Pwint Phyu (Spicy)	500
+11	Snacks	Sunflower Seeds	1000
+12	Drinks	Water	500
+13	Others	Ice	300
+14	Drinks	Grand Ryal (Black)	6000
+15	Drinks	Grand Ryal (Blue)	8000
+16	Drinks	Grand Ryal (Gold)	12000
