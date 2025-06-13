@@ -29,11 +29,13 @@
 					</div>
 				</form>
 				<ul class="navbar-nav ms-5">
-					<li class="nav-item">
-						<a class="nav-link">
-							<i class="bi-cart"></i> My Cart
-						</a>
-					</li>
+					<c:if test="${null != myCart && myCart.totalItems > 0}">
+						<li class="nav-item">
+							<a class="nav-link" href="${root}/cart/checkout">
+								<i class="bi-cart"></i> ${myCart.totalItems}
+							</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -47,7 +49,12 @@
 						<div class="card-body">
 							<div class="d-flex justify-content-between align-items-center">
 								<h4>${product.name()}</h4>
-								<a class="icon-link">
+								<c:url var="addToCart" value="/cart/add">
+									<c:param name="id" value="${product.id()}" />
+									<c:param name="home" value="1" />
+									<c:param name="keyword" value="${param.keyword}" />
+								</c:url>
+								<a href="${addToCart}" class="icon-link">
 									<i class="bi-cart-plus"></i>
 								</a>
 							</div>
