@@ -1,12 +1,11 @@
 package com.jdc.scope.servlet.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import lombok.Data;
-
-@Data
 public class ShoppingCart implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +34,10 @@ public class ShoppingCart implements Serializable{
 				items.remove(id);
 			}
 		}
+	}
+	
+	public List<ShoppingCartItem> getItems() {
+		return new ArrayList<>(items.values());
 	}
 	
 	public int getTotalItems() {
