@@ -1,12 +1,7 @@
 package com.jdc.scope.servlet;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collections;
-import java.util.TreeMap;
 
-import com.jdc.scope.servlet.model.Product;
 import com.jdc.scope.servlet.model.ProductManager;
 
 import jakarta.servlet.ServletException;
@@ -27,26 +22,11 @@ public class ProductsServlet extends HttpServlet{
 	
 	@Override
 	public void init() throws ServletException {
-		var path = getServletContext().getRealPath("/WEB-INF/product.txt");
+		var storage = getServletContext().getAttribute("ProductManager");
 		
-		try (var stream  = Files.lines(Path.of(path))) {
-			// Load Products
-			var products = new TreeMap<Integer, Product>();
-			stream
-				.map(line -> line.split("\t"))
-				.map(array -> new Product(array))
-				.forEach(product -> products.put(product.id(), product));
-			
-			// Create Product Manager
-			productManager = new ProductManager(Collections.synchronizedMap(products));
-			
-			// Add Products to Application Scope (ServletContext)
-			getServletContext().setAttribute("productManager", productManager);
-			
-		} catch (IOException e) {
-			System.err.println("File Read Error");
+		if(storage instanceof ProductManager pm) {
+			this.productManager = pm;
 		}
-		
 	}
 	
 	@Override

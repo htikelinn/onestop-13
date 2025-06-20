@@ -30,8 +30,20 @@
 				<td class="text-end">
 					<f:formatNumber value="${item.product.price()}" />
 				</td>
-				<td class="text-end">
+				<td class="text-end d-flex justify-content-around align-items-center">
+					<c:url var="removeItem" value="/cart/remove">
+						<c:param name="id" value="${item.product.id()}" />
+					</c:url>
+					<a href="${removeItem}" class="icon-link">
+						<i class="bi-dash"></i>
+					</a>
 					<f:formatNumber value="${item.quantity}" />
+					<c:url var="addItem" value="/cart/add">
+						<c:param name="id" value="${item.product.id()}" />
+					</c:url>
+					<a href="${addItem}" class="icon-link">
+						<i class="bi-plus"></i>
+					</a>
 				</td>
 				<td class="text-end">
 					<f:formatNumber value="${item.total}" />
@@ -52,5 +64,7 @@
 			</tr>
 		</tfoot>
 	</table>
+	
+	
 	
 </app:layout>

@@ -25,7 +25,7 @@ public class ShoppingCartServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
-		var object = getServletContext().getAttribute("productManager");
+		var object = getServletContext().getAttribute("ProductManager");
 		if(object instanceof ProductManager pm) {
 			this.productManager = pm;
 		}
@@ -36,7 +36,7 @@ public class ShoppingCartServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession(true);
 		
-		var myCart = session.getAttribute("myCart");
+		ShoppingCart myCart = (ShoppingCart) session.getAttribute("myCart");
 		if(null == myCart) {
 			myCart = new ShoppingCart();
 			session.setAttribute("myCart", myCart);
@@ -49,6 +49,11 @@ public class ShoppingCartServlet extends HttpServlet {
 		default -> throw new IllegalArgumentException();
 		};
 		
+		if(myCart.getItems().isEmpty()) {
+			resp.sendRedirect(getServletContext().getContextPath());
+			return;
+		} 
+		
 		getServletContext().getRequestDispatcher(viewName)
 			.forward(req, resp);
 	}
@@ -57,8 +62,12 @@ public class ShoppingCartServlet extends HttpServlet {
 		return "/views/checkout.jsp";
 	}
 
-	private String removeFromCart(HttpServletRequest req, HttpServletResponse resp, Object myCart) {
-		// TODO Auto-generated method stub
+	private String removeFromCart(HttpServletRequest req, HttpServletResponse resp, Object myCart) throws IOException {
+		if(myCart instanceof ShoppingCart cart) {
+			var idStr = req.getParameter("id");
+			var id = Integer.parseInt(idStr);
+			cart.removeOne(id);
+		}
 		return "/views/checkout.jsp";
 	}
 
