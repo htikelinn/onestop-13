@@ -65,6 +65,13 @@
 		</tfoot>
 	</table>
 	
-	
+	<c:url var="confirmedUrl" value="/sales"></c:url>
+	<form method="post" action="${confirmedUrl}" class="text-end">
+		<c:url value="/cart/clear" var="clearLink"></c:url>
+		<a href="${clearLink}" class="btn btn-outline-danger"><i class="bi-trash"></i> Clear</a>
+		<button type="submit" class="btn btn-outline-primary">
+			<i class="bi-check"></i> Confirm
+		</button>
+	</form>
 	
 </app:layout>

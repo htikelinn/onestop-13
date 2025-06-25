@@ -1,12 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>    
+<%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
 
-</body>
-</html>
+<app:layout>
+	<h3>Sale List</h3>
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<c:forEach var="item" items="${list}">
+			<tr>
+				<td>${item.id}</td>
+				<td>${item.total}</td>
+			</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</app:layout>

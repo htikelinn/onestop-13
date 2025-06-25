@@ -26,6 +26,7 @@ public class SalesFilter implements Filter{
 		if(null == account) {
 			HttpServletResponse resp = (HttpServletResponse) response;
 			resp.sendRedirect(req.getServletContext().getContextPath().concat("/signin"));
+			return;
 		}
 		
 		chain.doFilter(request, response);

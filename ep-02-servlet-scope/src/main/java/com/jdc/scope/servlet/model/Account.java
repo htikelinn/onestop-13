@@ -12,18 +12,16 @@ public class Account implements Serializable {
 	private String name;
 	private String phone;
 	private String email;
-	private String loginId;
 	private String password;
 
 	public static Builder builder() {
 		return new Builder();
 	}
 
-	private Account(String name, String phone, String email, String loginId, String password) {
+	private Account(String name, String phone, String email, String password) {
 		this.name = name;
 		this.phone = phone;
 		this.email = email;
-		this.loginId = loginId;
 		this.password = password;
 	}
 
@@ -31,7 +29,6 @@ public class Account implements Serializable {
 		private String name;
 		private String phone;
 		private String email;
-		private String loginId;
 		private String password;
 
 		public Builder name(String name) {
@@ -49,18 +46,13 @@ public class Account implements Serializable {
 			return this;
 		}
 
-		public Builder loginId(String loginId) {
-			this.loginId = loginId;
-			return this;
-		}
-
 		public Builder password(String password) {
 			this.password = password;
 			return this;
 		}
 
 		public Account build() {
-			return new Account(name, phone, email, loginId, password);
+			return new Account(name, phone, email, password);
 		}
 	}
 }

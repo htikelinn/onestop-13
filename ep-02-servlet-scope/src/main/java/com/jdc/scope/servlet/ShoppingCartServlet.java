@@ -1,6 +1,7 @@
 package com.jdc.scope.servlet;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import com.jdc.scope.servlet.model.ProductManager;
 import com.jdc.scope.servlet.model.ShoppingCart;
@@ -15,7 +16,8 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(urlPatterns = {
 	"/cart/add",
 	"/cart/remove",
-	"/cart/checkout"
+	"/cart/checkout",
+	"/cart/clear"
 })
 public class ShoppingCartServlet extends HttpServlet {
 
@@ -42,51 +44,35 @@ public class ShoppingCartServlet extends HttpServlet {
 			session.setAttribute("myCart", myCart);
 		}
 		
-		var viewName = switch(req.getServletPath()) {
+		if("/cart/checkout".equals(req.getServletPath())) {
+			getServletContext().getRequestDispatcher("/views/checkout.jsp")
+				.forward(req, resp);
+			return;
+		}
+		
+		var redirectUrl = switch(req.getServletPath()) {
 		case "/cart/add" -> addToCart(req, resp, myCart);
 		case "/cart/remove" -> removeFromCart(req, resp, myCart);
-		case "/cart/checkout" -> showCheckOutView(req, resp);
+		case "/cart/clear" -> Optional.of(myCart).map(a -> a.clear()).map(a -> "/products").get();
 		default -> throw new IllegalArgumentException();
 		};
 		
-		if(myCart.getItems().isEmpty()) {
-			resp.sendRedirect(getServletContext().getContextPath());
-			return;
-		} 
-		
-		getServletContext().getRequestDispatcher(viewName)
-			.forward(req, resp);
+		resp.sendRedirect(getServletContext().getContextPath().concat(redirectUrl));
 	}
 
-	private String showCheckOutView(HttpServletRequest req, HttpServletResponse resp) {
-		return "/views/checkout.jsp";
+	private String removeFromCart(HttpServletRequest req, HttpServletResponse resp, ShoppingCart cart) throws IOException {
+		var idStr = req.getParameter("id");
+		var id = Integer.parseInt(idStr);
+		cart.removeOne(id);
+		return cart.getTotalItems() == 0 ? "/products" : "/cart/checkout";
 	}
 
-	private String removeFromCart(HttpServletRequest req, HttpServletResponse resp, Object myCart) throws IOException {
-		if(myCart instanceof ShoppingCart cart) {
-			var idStr = req.getParameter("id");
-			var id = Integer.parseInt(idStr);
-			cart.removeOne(id);
-		}
-		return "/views/checkout.jsp";
-	}
-
-	private String addToCart(HttpServletRequest req, HttpServletResponse resp, Object myCart) {
+	private String addToCart(HttpServletRequest req, HttpServletResponse resp, ShoppingCart cart) {
 		
 		var idStr = req.getParameter("id");
 		var id = Integer.parseInt(idStr);
-		
-		if(myCart instanceof ShoppingCart cart) {
-			productManager.findById(id).ifPresent(cart::addItem);
-		}
-		
-		var fromHome = "1".equals(req.getParameter("home"));
-		
-		if(fromHome) {
-			var keyword = req.getParameter("keyword");
-			req.setAttribute("list", productManager.search(keyword));
-		}
-		
-		return fromHome ? "/views/products.jsp" : "/views/checkout.jsp";
+		productManager.findById(id).ifPresent(cart::addItem);
+
+		return "1".equals(req.getParameter("home")) ? "/products" : "/cart/checkout";
 	}
 }

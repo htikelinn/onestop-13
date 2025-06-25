@@ -58,38 +58,36 @@ public class StorageManagementListener implements ServletContextListener {
     private SaleManager loadSalesManager(ServletContext context) {
     	
 		var path = context.getRealPath(SALES);
+		SaleManager storage = null;
 		
 		try(var input = new ObjectInputStream(new FileInputStream(path))) {
-			SaleManager storage = (SaleManager)input.readObject();
-			
-			if(null == storage) {
-				storage = new SaleManager();
-			}
-			
-			return storage;
+			storage = (SaleManager)input.readObject();
 		} catch (Exception e) {
 			System.err.println("File Read Error");
 		}
-    	
-		return null;
+		
+		if(null == storage) {
+			storage = new SaleManager();
+		}
+		
+		return storage;
 	}
 
 	private AccountManager loadAccountManager(ServletContext context) {
 		var path = context.getRealPath(ACCOUNTS);
+		AccountManager storage = null;
 		
 		try(var input = new ObjectInputStream(new FileInputStream(path))) {
-			AccountManager storage = (AccountManager)input.readObject();
-			
-			if(null == storage) {
-				storage = new AccountManager();
-			}
-			
-			return storage;
+			storage = (AccountManager)input.readObject();
 		} catch (Exception e) {
 			System.err.println("File Read Error");
 		}
 
-		return null;
+		if(null == storage) {
+			storage = new AccountManager();
+		}
+		
+		return storage;
 	}
 
 	public void contextDestroyed(ServletContextEvent sce)  { 

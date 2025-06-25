@@ -36,6 +36,11 @@ public class ShoppingCart implements Serializable{
 		}
 	}
 	
+	public boolean clear() {
+		items.clear();
+		return items.isEmpty();
+	}
+	
 	public List<ShoppingCartItem> getItems() {
 		return new ArrayList<>(items.values());
 	}
