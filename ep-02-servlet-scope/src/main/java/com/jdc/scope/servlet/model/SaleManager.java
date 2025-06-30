@@ -40,7 +40,12 @@ public class SaleManager implements Serializable{
 	}
 	
 	public Sale findById(int id) {
-		return sales.values().stream().flatMap(a -> a.stream())
+		return sales.values()
+				// Stream<List<Sale>>
+				.stream()
+				// Stream<Stream<Sale>>
+				.flatMap(a -> a.stream())
+				// Stream<Sale>
 				.filter(a -> a.getId() == id)
 				.findFirst().orElse(null);
 	}

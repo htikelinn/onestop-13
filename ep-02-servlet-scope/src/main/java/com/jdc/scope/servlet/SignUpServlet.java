@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import com.jdc.scope.servlet.model.Account;
 import com.jdc.scope.servlet.model.AccountManager;
+import com.jdc.scope.servlet.model.ShoppingCart;
+import com.jdc.scope.servlet.model.exception.BusinessException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,22 +34,33 @@ public class SignUpServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		var name = req.getParameter("name");
-		var email = req.getParameter("email");
-		var password = req.getParameter("password");
-		var phone = req.getParameter("phone");
-		
-		var account = Account.builder()
-				.name(name)
-				.email(email)
-				.password(password)
-				.phone(phone).build();
-		
-		accountManager.add(account);
-		
-		var session = req.getSession(true);
-		session.setAttribute("LOGIN_USER", account);
-		
-		getServletContext().getRequestDispatcher("/sales").forward(req, resp);
+		try {
+			var name = req.getParameter("name");
+			var email = req.getParameter("email");
+			var password = req.getParameter("password");
+			var phone = req.getParameter("phone");
+			
+			var account = Account.builder()
+					.name(name)
+					.email(email)
+					.password(password)
+					.phone(phone).build();
+			
+			accountManager.add(account);
+			
+			var session = req.getSession(true);
+			session.setAttribute("loginUser", account);
+
+			ShoppingCart cart = (ShoppingCart) session.getAttribute("myCart");
+			if(null == cart || cart.getItems().isEmpty()) {
+				resp.sendRedirect(getServletContext().getContextPath().concat("/products"));
+				return;
+			}
+			
+			getServletContext().getRequestDispatcher("/sales").forward(req, resp);
+		} catch (BusinessException e) {
+			req.setAttribute("message", e.getMessage());
+			getServletContext().getRequestDispatcher("/views/sign-up.jsp").forward(req, resp);
+		}
 	}
 }

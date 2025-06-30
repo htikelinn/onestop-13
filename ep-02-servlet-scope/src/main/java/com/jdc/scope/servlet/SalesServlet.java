@@ -27,13 +27,23 @@ public class SalesServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		var idStr = req.getParameter("id");
+		
+		if(null != idStr && !idStr.isEmpty()) {
+			req.setAttribute("sale", saleManager.findById(Integer.parseInt(idStr)));
+			getServletContext().getRequestDispatcher("/views/sale-details.jsp")
+				.forward(req, resp);
+			
+			return;
+		}
+ 		
 		var session = req.getSession(true);
-		Account account = (Account) session.getAttribute("LOGIN_USER");
+		Account account = (Account) session.getAttribute("loginUser");
 		
 		var list = saleManager.search(account.getEmail());
 		req.setAttribute("list", list);
 		
-		getServletContext().getRequestDispatcher("/sale-list.jsp")
+		getServletContext().getRequestDispatcher("/views/sale-list.jsp")
 			.forward(req, resp);
 	}
 	
@@ -42,13 +52,10 @@ public class SalesServlet extends HttpServlet {
 		
 		var session = req.getSession(true);
 		ShoppingCart cart = (ShoppingCart) session.getAttribute("myCart");
-		Account account = (Account) session.getAttribute("LOGIN_USER");
+		Account account = (Account) session.getAttribute("loginUser");
 		
 		var id = saleManager.add(cart, account);
 		
-		req.setAttribute("sale", saleManager.findById(id));
-		
-		getServletContext().getRequestDispatcher("/views/sale-details.jsp")
-			.forward(req, resp);
+		resp.sendRedirect(getServletContext().getContextPath().concat("/sales?id=%s".formatted(id)));
 	}
 }

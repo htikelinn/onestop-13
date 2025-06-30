@@ -21,7 +21,7 @@ public class SalesFilter implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		var session = req.getSession(true);
 		
-		var account = session.getAttribute("LOGIN_USER");
+		var account = session.getAttribute("loginUser");
 		
 		if(null == account) {
 			HttpServletResponse resp = (HttpServletResponse) response;

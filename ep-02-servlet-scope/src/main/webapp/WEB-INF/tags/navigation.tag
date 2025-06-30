@@ -3,19 +3,10 @@
 
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 
-<nav class="navbar navbar-expend navbar-dark bg-primary">
+<nav class="navbar navbar-expand navbar-dark bg-primary">
 	<div class="container">
-		<a class="navbar-brand" href="${root}/products">My Shop</a>
-		<div class="d-flex">
-			<c:if test="${null != myCart && myCart.totalItems > 0}">
-			<ul class="navbar-nav me-4">
-				<li class="nav-item">
-					<a class="nav-link" href="${root}/cart/checkout">
-						<i class="bi-cart"></i> ${myCart.totalItems}
-					</a>
-				</li>
-			</ul>
-			</c:if>
+		<div class="d-flex align-items-center">
+			<a class="navbar-brand" href="${root}/products">My Shop</a>
 			<form action="${root}/products" class="d-flex">
 				<div class="input-group">
 					<input class="form-control" name="keyword" value="${param.keyword}" placeholder="Search Keyword" />
@@ -25,5 +16,35 @@
 				</div>
 			</form>
 		</div>
+		<ul class="navbar-nav">
+			<c:if test="${null != myCart && myCart.totalItems > 0}">
+			<li class="nav-item">
+				<a class="nav-link" href="${root}/cart/checkout">
+					<i class="bi-cart"></i> ${myCart.totalItems}
+				</a>
+			</li>
+			</c:if>
+			<c:choose>
+				<c:when test="${null == loginUser}">
+				<li class="nav-item">
+					<a class="nav-link" href="${root}/signin">
+						<i class="bi-unlock"></i> Sign In
+					</a>
+				</li>
+				</c:when>
+				<c:otherwise>
+				<li class="nav-item">
+					<a class="nav-link" href="${root}/sales">
+						<i class="bi-calendar"></i> Invoices
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="${root}/signout">
+						<i class="bi-lock"></i> Sign Out
+					</a>
+				</li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
 	</div>
 </nav>

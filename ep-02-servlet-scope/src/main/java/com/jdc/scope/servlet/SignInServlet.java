@@ -3,6 +3,7 @@ package com.jdc.scope.servlet;
 import java.io.IOException;
 
 import com.jdc.scope.servlet.model.AccountManager;
+import com.jdc.scope.servlet.model.ShoppingCart;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +11,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/signin")
+@WebServlet({
+	"/signin",
+	"/signout"
+})
 public class SignInServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -24,8 +28,16 @@ public class SignInServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		getServletContext().getRequestDispatcher("/views/sign-in.jsp")
-			.forward(req, resp);
+		
+		if("/signin".equals(req.getServletPath())) {
+			getServletContext().getRequestDispatcher("/views/sign-in.jsp")
+				.forward(req, resp);
+			return;
+		}
+		
+		var session = req.getSession(true);
+		session.invalidate();
+		resp.sendRedirect(getServletContext().getContextPath());
 	}
 	
 	@Override
@@ -53,8 +65,15 @@ public class SignInServlet extends HttpServlet {
 		}
 		
 		var session = req.getSession(true);
-		session.setAttribute("LOGIN_USER", account);
+		session.setAttribute("loginUser", account);
+		
+		ShoppingCart cart = (ShoppingCart) session.getAttribute("myCart");
+		if(null == cart || cart.getItems().isEmpty()) {
+			resp.sendRedirect(getServletContext().getContextPath().concat("/products"));
+			return;
+		}
 		
 		getServletContext().getRequestDispatcher("/sales").forward(req, resp);
+		
 	}
 }

@@ -34,6 +34,20 @@ public class StorageManagementListener implements ServletContextListener {
     	context.setAttribute("ProductManager", loadProductManager(context));
     	context.setAttribute("SaleManager", loadSalesManager(context));
     }
+    
+	public void contextDestroyed(ServletContextEvent sce)  { 
+		var context = sce.getServletContext();
+		
+		try(var accountOutput = new ObjectOutputStream(new FileOutputStream(context.getRealPath(ACCOUNTS)));
+				var salesOutput = new ObjectOutputStream(new FileOutputStream(context.getRealPath(SALES)))) {
+			accountOutput.writeObject(context.getAttribute("AccountManager"));
+			salesOutput.writeObject(context.getAttribute("SaleManager"));
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("File Write Error");
+		}
+    }
+
 
 	private ProductManager loadProductManager(ServletContext context) {
 		var path = context.getRealPath(PRODUCTS);
@@ -90,17 +104,5 @@ public class StorageManagementListener implements ServletContextListener {
 		return storage;
 	}
 
-	public void contextDestroyed(ServletContextEvent sce)  { 
-		var context = sce.getServletContext();
-		
-		try(var accountOutput = new ObjectOutputStream(new FileOutputStream(context.getRealPath(ACCOUNTS)));
-				var salesOutput = new ObjectOutputStream(new FileOutputStream(context.getRealPath(SALES)))) {
-			accountOutput.writeObject(context.getAttribute("AccountManager"));
-			salesOutput.writeObject(context.getAttribute("SaleManager"));
-		} catch(Exception e) {
-			e.printStackTrace();
-			System.err.println("File Write Error");
-		}
-    }
     
 }
