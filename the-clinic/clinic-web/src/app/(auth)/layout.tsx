@@ -1,4 +1,4 @@
-import type { LayoutProps } from "@/lib/utils"
+import type { LayoutProps } from "@/lib"
 import { HeartPlus } from "lucide-react"
 
 export default function AuthLayout({children} : LayoutProps) {

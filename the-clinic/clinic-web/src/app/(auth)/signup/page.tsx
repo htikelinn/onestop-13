@@ -1,6 +1,6 @@
 import AuthHeader from "@/components/app/auth-header";
+import ClientSignUp from "@/components/client/client-signup";
 import { Metadata } from "next";
-import ClientSignUp from "./_commons/client-signup";
 
 export const metadata: Metadata = {
   title: "The Clinic | Sign Up",

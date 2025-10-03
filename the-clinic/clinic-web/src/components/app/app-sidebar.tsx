@@ -3,6 +3,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarHeader
 import Link from "next/link";
 import React from "react";
 import * as LucideIcons from 'lucide-react'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 
 export default function AppSidebar({menus, portalName, portalLink} : {menus : MenuGroup[], portalName: 'Clinic' | 'Patient', portalLink: string})  {
     return (
@@ -51,34 +52,41 @@ function AppMenu({data} : {data: Menu | React.ReactNode}) {
     const IconComponent = LucideIcons[menu.icon] as LucideIcons.LucideIcon
 
     return (
-        <SidebarMenuItem>
-        {menu.path &&
-            <SidebarMenuButton asChild>
-                <Link href={menu.path}>
-                    <IconComponent /> {menu.name}
-                </Link>
-            </SidebarMenuButton>
-        } 
+        <Collapsible className="group/collapsible" defaultOpen={true}>
+            <SidebarMenuItem>
+                {menu.path &&
+                    <SidebarMenuButton asChild>
+                        <Link href={menu.path}>
+                            <IconComponent /> {menu.name}
+                        </Link>
+                    </SidebarMenuButton>
+                } 
 
-        {!menu.path && menu.items && 
-            <>
-                <SidebarMenuButton>
-                    <IconComponent /> {menu.name}
-                </SidebarMenuButton>
+                {!menu.path && menu.items && 
+                    <>
+                        <CollapsibleTrigger asChild>
+                            <SidebarMenuButton>
+                                <IconComponent /> {menu.name}
+                                <LucideIcons.ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                            </SidebarMenuButton>
+                        </CollapsibleTrigger>
 
-                <SidebarMenuSub>
-                {menu.items.map((sub, index) => 
-                    <SidebarMenuSubItem key={index}>
-                        <SidebarMenuSubButton asChild>
-                            <Link href={sub.path}>
-                                {sub.name}
-                            </Link>
-                        </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                )}    
-                </SidebarMenuSub>
-            </>
-        }  
-        </SidebarMenuItem>
+                        <CollapsibleContent>
+                            <SidebarMenuSub>
+                            {menu.items.map((sub, index) => 
+                                <SidebarMenuSubItem key={index}>
+                                    <SidebarMenuSubButton asChild>
+                                        <Link href={sub.path}>
+                                            {sub.name}
+                                        </Link>
+                                    </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                            )}    
+                            </SidebarMenuSub>
+                        </CollapsibleContent>
+                    </>
+                }  
+            </SidebarMenuItem>        
+        </Collapsible>
     )
 }

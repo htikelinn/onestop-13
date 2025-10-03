@@ -3,9 +3,10 @@ import ChangePasswordMenu from "@/components/client/change-password-menu";
 import LogoutMenu from "@/components/client/logout-menu";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { MenuGroup } from "@/lib/model/dto/auth-dto";
+import type { LayoutProps } from "@/lib";
 import React from "react";
 
-export default function PatientLayout({children} : {children: React.ReactNode}) {
+export default function PatientLayout({children} : LayoutProps) {
     return (
         <SidebarProvider>
             <AppSidebar menus={PATIENT_MENUS} portalLink="/patient" portalName="Patient" />

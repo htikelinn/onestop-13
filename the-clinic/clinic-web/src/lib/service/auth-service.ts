@@ -1,6 +1,6 @@
 'use server'
 
-import { AuthResult } from "../model/dto/auth-dto"
+import { AuthResult, Menu } from "../model/dto/auth-dto"
 import { SignInForm, SignUpForm } from "../model/schema/auth-schema"
 
 export async function signInAction(form:SignInForm):Promise<AuthResult> {
@@ -34,4 +34,26 @@ export async function signUpAction(form:SignUpForm):Promise<AuthResult> {
         success: true,
         message: "Patient"
     }
+}
+
+export async function getEmployeeMenus():Promise<Menu[]> {
+    return [
+        {name: "Appointments", icon: 'CalendarCheck', items: [
+            {name: "Create Appointment", path: ""},
+            {name: "Check In", path: ""},
+            {name: "Consultation", path: ""},
+            {name: "Treatment", path: ""},
+            {name: "Check Out", path: ""},
+        ]},
+        {name: "Patients", icon: 'Users', path: "/"},
+        {name: "Visit History", icon: 'History', path: "/"},
+        {name: "Test & Lab Results", icon: 'Microscope', path: "/"},
+        {name: "Management", icon: 'Settings', items: [
+            {name: 'Employee', path: '/'},
+            {name: 'Inventory', path: '/'},
+            {name: 'Schedule', path: '/'},
+        ]},
+        {name: "Messages", icon : 'Mail', path: '/'},
+        {name: "User Profile", icon : 'User', path: '/'}
+    ]
 }
