@@ -1,16 +1,20 @@
 'use client'
 
 import { useForm } from "react-hook-form"
-import { signInAction } from "./signin-action"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import FormsInput from "@/components/forms/forms-input"
-import { SignInForm, SignInSchema } from "../../../../lib/auth-schema"
+import { SignInForm, SignInSchema } from "../../lib/model/schema/auth-schema"
 import { Unlock, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { signInAction } from "@/lib/service/auth-service"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export default function ClientSignIn() {
+
+    const router = useRouter()
 
     const form = useForm<SignInForm>({
         resolver: zodResolver(SignInSchema),
@@ -21,7 +25,15 @@ export default function ClientSignIn() {
     })
 
     async function onSignIn(form:SignInForm) {
-        await signInAction(form)
+        const result = await signInAction(form)
+
+        if(result.success) {
+            router.replace(`/${result.message.toLowerCase()}`)
+        } else {
+            toast("Authentication Error", {
+                description: result.message
+            })
+        }
     }
 
     return (

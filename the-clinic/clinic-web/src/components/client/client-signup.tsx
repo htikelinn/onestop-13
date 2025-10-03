@@ -3,13 +3,18 @@
 import FormsInput from "@/components/forms/forms-input"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { SignUpForm, SignUpSchema } from "@/lib/auth-schema"
+import { SignUpForm, SignUpSchema } from "@/lib/model/schema/auth-schema"
+import { signUpAction } from "@/lib/service/auth-service"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Unlock, UserPlus } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 export default function ClientSignUp() {
+
+    const router = useRouter()
 
     const form = useForm<SignUpForm>({
         resolver: zodResolver(SignUpSchema),
@@ -21,7 +26,15 @@ export default function ClientSignUp() {
     })
 
     async function onSignUp(form:SignUpForm) {
-        console.log(form)
+        const result = await signUpAction(form)
+
+        if(result.success) {
+            router.push(`/${result.message.toLowerCase()}`)
+        } else {
+            toast("Sign Up Error", {
+                description: result.message
+            })
+        }
     }
 
     return (

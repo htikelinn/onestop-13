@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import ClientSignIn from "./_commons/client-signin";
+import ClientSignIn from "../../../components/client/client-signin";
 import AuthHeader from "@/components/app/auth-header";
 
 export const metadata: Metadata = {

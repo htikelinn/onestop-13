@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "The Clinic | Home",
@@ -12,6 +13,7 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
     <html lang="en">
       <body>
         {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );
