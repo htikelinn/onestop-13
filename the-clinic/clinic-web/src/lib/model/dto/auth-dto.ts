@@ -1,3 +1,6 @@
+import React from "react"
+import * as lucideIcons from 'lucide-react'
+
 /**
  * Server Response
  */
@@ -17,12 +20,13 @@ export type AuthResult = {
 }
 
 export type MenuGroup = {
-    name: string
-    items: Menu[]
+    name?: string
+    items: (Menu | React.ReactNode)[]
 }
 
 export type Menu = {
     name: string
+    icon: keyof typeof lucideIcons
     path?: string
     items?: SubMenu[]
 }
