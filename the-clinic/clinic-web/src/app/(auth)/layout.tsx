@@ -1,6 +1,8 @@
+import { Button } from "@/components/ui/button"
 import type { LayoutProps } from "@/lib"
-import { HeartPlus } from "lucide-react"
+import { ArrowLeft, HeartPlus } from "lucide-react"
 import Image from 'next/image'
+import Link from "next/link"
 
 export default function AuthLayout({children} : LayoutProps) {
     return (
@@ -13,9 +15,14 @@ export default function AuthLayout({children} : LayoutProps) {
                 <div className="flex flex-col relative z-10 h-screen justify-center items-center">
                     <HeartPlus size={160} className="text-blue-100" />
                     <h1 className="text-4xl text-blue-50 font-bold">THE CLINIC</h1>
-                    <p className="text-xl w-1/2 text-center text-white mt-4">We appreciate you choosing us for your care today.</p>
-                </div>
+                    <p className="text-xl w-1/2 text-center text-white my-4">We appreciate you choosing us for your care today.</p>
 
+                    <Button asChild variant={"secondary"}>
+                        <Link href="/">
+                            <ArrowLeft /> Go Back Home
+                        </Link>
+                    </Button>
+                </div>
             </div>
             <main className="flex-1 flex items-center justify-center">
                 <section className="w-2/3">
