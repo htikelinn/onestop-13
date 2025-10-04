@@ -1,6 +1,6 @@
 import AppSidebar from "@/components/app/app-sidebar";
-import ChangePasswordMenu from "@/components/client/change-password-menu";
-import LogoutMenu from "@/components/client/logout-menu";
+import ChangePasswordMenu from "@/components/app/menu-change-password";
+import LogoutMenu from "@/components/app/menu-logout";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { MenuGroup } from "@/lib/model/dto/auth-dto";
 import type { LayoutProps } from "@/lib";

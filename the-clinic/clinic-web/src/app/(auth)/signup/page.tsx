@@ -1,5 +1,5 @@
 import AuthHeader from "@/components/app/auth-header";
-import ClientSignUp from "@/components/client/client-signup";
+import ClientSignUp from "@/components/app/auth-signup";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
