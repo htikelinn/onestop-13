@@ -9,6 +9,7 @@ type FormsInputProps<T extends FieldValues> = {
     label: string
     type?: HTMLInputTypeAttribute
     className?: string
+    placeholder?: string
 }
 
 export default function FormsInput<T extends FieldValues>({
@@ -16,14 +17,15 @@ export default function FormsInput<T extends FieldValues>({
     path,
     label,
     type,
-    className
+    className,
+    placeholder
 } : FormsInputProps<T>) {
     return (
         <FormField control={control} name={path} render={({field}) => 
             <FormItem className={className}>
                 <FormLabel>{label}</FormLabel>
                 <FormControl>
-                    <Input type={type || 'text'} {...field} placeholder={`Enter ${label}`} />
+                    <Input type={type || 'text'} {...field} placeholder={placeholder || `Enter ${label}`} />
                 </FormControl>
                 <FormMessage />
             </FormItem>

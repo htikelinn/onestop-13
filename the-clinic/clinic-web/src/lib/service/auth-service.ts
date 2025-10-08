@@ -45,9 +45,9 @@ export async function getEmployeeMenus():Promise<Menu[]> {
             {name: "Treatment", path: ""},
             {name: "Check Out", path: ""},
         ]},
-        {name: "Patients", icon: 'Users', path: "/"},
-        {name: "Visit History", icon: 'History', path: "/"},
-        {name: "Test & Lab Results", icon: 'Microscope', path: "/"},
+        {name: "Patients", icon: 'Users', path: "/employee/patients"},
+        {name: "Visit History", icon: 'History', path: "/employee/visits"},
+        {name: "Test & Lab Results", icon: 'Microscope', path: "/employee/tests"},
         {name: "Management", icon: 'Settings', items: [
             {name: 'Employee', path: '/'},
             {name: 'Inventory', path: '/'},
