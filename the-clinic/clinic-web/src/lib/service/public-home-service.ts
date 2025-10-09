@@ -1,4 +1,7 @@
-import { DepartmentForHome, DoctorForHome } from "../model/dto/public-home-dto";
+'use server'
+
+import { addDays } from "date-fns";
+import { DepartmentForHome, DoctorForHome, DoctorSchedule } from "../model/public-home.model";
 
 export async function getDepartmentsForHome():Promise<DepartmentForHome[]> {
     return [
@@ -45,28 +48,60 @@ export async function getDepartmentsForHome():Promise<DepartmentForHome[]> {
 export async function getDoctorsForHome():Promise<DoctorForHome[]> {
     return [
         {
-            id: 1,
+            id: "1",
             name: "Nyi Nyi",
             title: "Prof",
             degree: "M.B.,B.S, M.Med.Sc[Int.Med] , M.R.C.P [UK], F.R.C.P [Edin], Professor/Consultant Physician"
         },
         {
-            id: 2,
+            id: "2",
             name: "Aung Set",
             title: "Prof",
             degree: "M.B.,B.S, M.Med.Sc (Int.Med), M.R.C.P(UK), Dr.Med.Sc(Gen.Med)"
         },
         {
-            id: 3,
+            id: "3",
             name: "Thidar Nwe",
             title: "Dr",
             degree: "M.B.,B.S, M.Med.Sc (Int.Med), M.R.C.P"
         },
         {
-            id: 4,
+            id: "4",
             name: "Myo Ma Ma",
             title: "Dr",
             degree: "M.B.,B.S, M.Med.Sc(Internal Medicine), Dr.Med.Sc(General Medicine), MRCP(UK), FRCP(Edin), FRCP(London)"
         },
+    ]
+}
+
+export async function findScheduleForDoctor(id: string):Promise<DoctorSchedule[]> {
+    console.log(id)
+    return [
+        {
+            scheduleDate: new Date,
+            startTime: "9:00am",
+            endTime: "12:00am"
+        },
+        {
+            scheduleDate: addDays(new Date, 1),
+            startTime: "4:00pm",
+            endTime: "08:00pm"
+        },
+        {
+            scheduleDate: addDays(new Date, 2),
+            startTime: "9:00am",
+            endTime: "12:00am"
+        },
+        {
+            scheduleDate: addDays(new Date, 3),
+            startTime: "4:00pm",
+            endTime: "08:00pm"
+        },
+        {
+            scheduleDate: addDays(new Date, 4),
+            startTime: "9:00am",
+            endTime: "12:00am"
+        },
+
     ]
 }

@@ -3,7 +3,7 @@
 import FormsInput from "@/components/forms/forms-input"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { SignUpForm, SignUpSchema } from "@/lib/model/schema/auth-schema"
+import { SignUpForm, SignUpSchema } from "@/lib/model/auth-model"
 import { signUpAction } from "@/lib/service/auth-service"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Unlock, UserPlus } from "lucide-react"

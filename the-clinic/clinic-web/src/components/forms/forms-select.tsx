@@ -17,7 +17,7 @@ export default function FormsSelect<T extends FieldValues>({control, path, label
                 <FormLabel>{label}</FormLabel>
                 <Select defaultValue={field.value} onValueChange={field.onChange}>
                     <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                             <SelectValue placeholder={`Select ${label}`} />
                         </SelectTrigger>
                     </FormControl>

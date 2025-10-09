@@ -19,7 +19,7 @@ export default async function EmployeeLayout({children} : LayoutProps) {
             <AppSidebar menus={[{items: employeeMenus}]} portalLink="/employee" portalName="Clinic" />
 
             <SidebarInset>
-                <AppHeader props={{baseUrl: "/employee", routeNames : ROUTE_NAMES}} />
+                <AppHeader baseUrl="/employee" routeNames={ROUTE_NAMES} />
                 {children}
             </SidebarInset>
         </SidebarProvider>

@@ -1,4 +1,4 @@
-export default function AppointmentEdit() {
+export default function EditAppointment() {
     return (
         <></>
     )

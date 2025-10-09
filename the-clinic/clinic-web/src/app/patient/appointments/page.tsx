@@ -1,19 +1,22 @@
 import Pagination from "@/components/app/pagination"
 import SearchForm from "./_lib/search-form"
-import { searchAppointment } from "@/lib/service/appointment-service"
-import { AppointmentListItem } from "@/lib/model/dto/appointment-dto"
+import * as appointmentApi from "@/lib/service/appointment-service"
 import NoSearchResult from "@/components/app/no-search-result"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { AppointmentListItem } from "@/lib/model/appointment.model"
+import SectionTitle from "@/components/app/section-title"
 
-export default async function Appointments({queryParams} : {queryParams : Promise<{[key:string] : string | undefined}>}) {
+export default async function Appointments(props : PageProps<'/patient/appointments'>) {
     
-    const params = await queryParams
-    const {list, pageInfo} = await searchAppointment(params)
+    const params = await props.searchParams
+    const {list, pageInfo} = await appointmentApi.search(params)
 
     return (
         <section className="space-y-4">
+            <SectionTitle title="Appointment Management" icon="CalendarCheck" />
+
             <SearchForm params={params} />
 
             {list.length ? 

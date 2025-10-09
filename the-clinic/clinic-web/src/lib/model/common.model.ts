@@ -12,6 +12,11 @@ export type PageResult<T> = {
     pageInfo : PagerInfo
 }
 
+export type ModificationResult = {
+    success: boolean
+    message: string
+}
+
 export const DUMMY_PAGE:PagerInfo = {
     page: 5,
     size: 10,

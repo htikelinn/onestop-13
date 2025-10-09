@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import FormsInput from "@/components/forms/forms-input"
-import { SignInForm, SignInSchema } from "../../lib/model/schema/auth-schema"
 import { Unlock, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { signInAction } from "@/lib/service/auth-service"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { SignInForm, SignInSchema } from "@/lib/model/auth-model"
 
 export default function ClientSignIn() {
 

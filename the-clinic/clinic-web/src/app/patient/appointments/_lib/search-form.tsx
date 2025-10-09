@@ -4,13 +4,13 @@ import FormsInput from "@/components/forms/forms-input"
 import FormsSelect from "@/components/forms/forms-select"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { AppointmentSearch, AppointmentStatusList } from "@/lib/model/search/appointment-search"
+import { AppointmentSearch, AppointmentStatusList } from "@/lib/model/appointment.model"
 import { Plus, Search } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
-export default function SearchForm({params} : {params? : {[key:string] : string | undefined}}) {
+export default function SearchForm({params} : {params? : Record<string, string | string [] | undefined>}) {
     
     const router = useRouter()
     const statusOptions = AppointmentStatusList.map(a => ({key: a, value : a}))
@@ -18,10 +18,10 @@ export default function SearchForm({params} : {params? : {[key:string] : string 
 
     const form = useForm<AppointmentSearch>({
         defaultValues: {
-            status: params?.status || 'all',
-            dateFrom: params?.dateFrom || '',
-            dateTo: params?.dateTo || '',
-            keyword: params?.keyword || ''
+            status: params?.status as string || 'all',
+            dateFrom: params?.dateFrom as string || '',
+            dateTo: params?.dateTo as string || '',
+            keyword: params?.keyword as string || ''
         }
     })
 
@@ -64,7 +64,7 @@ export default function SearchForm({params} : {params? : {[key:string] : string 
                     </Button>    
 
                     <Button type="button" asChild variant={'destructive'}>
-                        <Link href="">
+                        <Link href="/patient/appointments/create">
                             <Plus /> Add New
                         </Link>
                     </Button>

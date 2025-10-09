@@ -8,8 +8,14 @@ export type DepartmentForHome = {
 }
 
 export type DoctorForHome = {
-    id: number
+    id: string
     name: string
     degree: string
     title: string
+}
+
+export type DoctorSchedule = {
+    scheduleDate: Date
+    startTime: string
+    endTime: string
 }

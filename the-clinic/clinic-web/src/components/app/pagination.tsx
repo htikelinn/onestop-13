@@ -1,4 +1,4 @@
-import { PagerInfo } from "@/lib/model/dto/common-dto";
+import { PagerInfo } from "@/lib/model/common.model";
 import { PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationPrevious, Pagination as UIPagination} from "@/components/ui/pagination"
 import { ArrowLeft, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";

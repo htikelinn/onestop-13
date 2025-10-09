@@ -1,4 +1,4 @@
-import { Menu, MenuGroup } from "@/lib/model/dto/auth-dto";
+import { Menu, MenuGroup } from "@/lib/model/auth-model";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "../ui/sidebar";
 import Link from "next/link";
 import React from "react";
