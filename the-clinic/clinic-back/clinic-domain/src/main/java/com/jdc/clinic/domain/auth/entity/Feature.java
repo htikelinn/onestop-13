@@ -24,7 +24,7 @@ public class Feature implements Serializable{
 	
 	@Column(nullable = false)
 	private String name;
-
+	
 	private String path;
 	private String icon;
 	private String endpoints;

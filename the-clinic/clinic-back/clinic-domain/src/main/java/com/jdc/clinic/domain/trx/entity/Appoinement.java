@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.jdc.clinic.domain.BaseEntity;
 import com.jdc.clinic.domain.master.entity.Doctor;
-import com.jdc.clinic.domain.trx.AppoinementPk;
+import com.jdc.clinic.domain.trx.AppointmentPk;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -22,7 +22,7 @@ public class Appoinement extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private AppoinementPk id;
+	private AppointmentPk id;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(insertable = false, updatable = false)

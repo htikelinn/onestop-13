@@ -1,7 +1,7 @@
 'use server'
 
-import { AuthResult, Menu } from "../model/dto/auth-dto"
-import { SignInForm, SignUpForm } from "../model/schema/auth-schema"
+import { AuthResult, Menu, SignInForm, SignUpForm } from "../model/auth-model"
+
 
 export async function signInAction(form:SignInForm):Promise<AuthResult> {
     if(["patient", "employee"].includes(form.password.toLocaleLowerCase())) {

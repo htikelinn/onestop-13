@@ -22,7 +22,8 @@ export type SignUpForm = z.infer<typeof SignUpSchema>
  */
 export type AuthResponse = {
     name: string
-    role: 'Patient' | 'Employee'
+    email: string
+    role: 'Patient' | 'Employee' | 'Admin'
     accessToken: string
     refreshToken: string
 }
@@ -33,11 +34,6 @@ export type AuthResponse = {
 export type AuthResult = {
     success: boolean
     message: string
-}
-
-export type MenuGroup = {
-    name?: string
-    items: (Menu | React.ReactNode)[]
 }
 
 export type Menu = {

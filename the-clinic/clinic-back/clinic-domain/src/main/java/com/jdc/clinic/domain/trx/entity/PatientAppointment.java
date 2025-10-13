@@ -32,4 +32,5 @@ public class PatientAppointment extends BaseEntity {
 	@JoinColumn(name = "schedule_time", referencedColumnName = "schedule_time", insertable = false, updatable = false)
 	@JoinColumn(name = "token_number", referencedColumnName = "token_number", insertable = false, updatable = false)
 	private Appoinement appoinement;
+	
 }

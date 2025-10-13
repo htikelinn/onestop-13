@@ -5,11 +5,15 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Embeddable
-public class AppoinementPk implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class AppointmentPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,4 +28,11 @@ public class AppoinementPk implements Serializable {
 
 	@Column(nullable = false, name = "token_number")
 	private int tokenNumber;
+
+	public static AppointmentPk from(TokenSeqPk id, int tokenNumber) {
+		return new AppointmentPk(id.getDoctorId(), 
+				id.getScheduleDate(), 
+				id.getScheduleTime(), 
+				tokenNumber);
+	}
 }
