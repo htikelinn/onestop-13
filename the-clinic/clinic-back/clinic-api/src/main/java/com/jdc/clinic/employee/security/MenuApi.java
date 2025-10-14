@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jdc.clinic.security.output.Menu;
+
 @RestController
 @RequestMapping("/employee/menu")
 public class MenuApi {
 	
 	@GetMapping
 	@PreAuthorize("#email eq authentication.name")
-	List<String> getMenus(@RequestParam String email) {
+	List<Menu> getMenus(@RequestParam String email) {
 		return null;
 	}
 
