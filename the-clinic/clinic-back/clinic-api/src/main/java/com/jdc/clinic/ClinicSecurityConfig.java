@@ -33,6 +33,11 @@ public class ClinicSecurityConfig {
 		http.addFilterAfter(jwtTokenFilter(), ExceptionTranslationFilter.class);
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		
+		http.exceptionHandling(exception -> {
+			exception.accessDeniedHandler(null);
+			exception.authenticationEntryPoint(null);
+		});
+		
 		return http.build();
 	}
 	

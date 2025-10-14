@@ -13,6 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import com.jdc.clinic.utils.security.exception.AccessTokenExpirationException;
+import com.jdc.clinic.utils.security.exception.RefreshTokenExpirationException;
+
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 
 @Service
@@ -25,13 +29,13 @@ public class JwtTokenProvider {
 	private static final String ROL = "rol";
 	private static final String TYPE = "type";
 	
-	@Value("app.token.issuer")
+	@Value("${app.token.issuer}")
 	private String issuer;
 	
-	@Value("app.token.refresh")
+	@Value("${app.token.refresh}")
 	private int refreshLife;
 
-	@Value("app.token.access")
+	@Value("${app.token.access}")
 	private int accessLife;
 	
 	private SecretKey secretKey = Jwts.SIG.HS512.key().build();
@@ -45,11 +49,19 @@ public class JwtTokenProvider {
 	}
 
 	public Authentication parseRefresh(String token) {
-		return parseToken(token, TokenType.Access);
+		try {
+			return parseToken(token, TokenType.Refresh);
+		} catch (ExpiredJwtException e) {
+			throw new RefreshTokenExpirationException("You need to login again.", e);
+		}
 	}
 
 	public Authentication parseAccess(String token) {
-		return parseToken(token, TokenType.Refresh);
+		try {
+			return parseToken(token, TokenType.Access);
+		} catch (ExpiredJwtException e) {
+			throw new AccessTokenExpirationException("You need to refresh token.", e);
+		}
 	}
 
 	private String generateToken(Authentication authentication, TokenType type) {
