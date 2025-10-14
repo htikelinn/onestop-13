@@ -55,4 +55,5 @@ public class ClinicSecurityConfig {
 	JwtTokenFilter jwtTokenFilter() {
 		return new JwtTokenFilter();
 	}
+	
 }
