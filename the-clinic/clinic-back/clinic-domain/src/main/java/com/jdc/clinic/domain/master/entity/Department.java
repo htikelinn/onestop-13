@@ -1,5 +1,7 @@
 package com.jdc.clinic.domain.master.entity;
 
+import java.util.List;
+
 import com.jdc.clinic.domain.BaseEntity;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,5 +31,11 @@ public class Department extends BaseEntity {
 	private String icon;
 	
 	@Column(nullable = false)
+	private String phone;
+	
+	@Column(nullable = false)
 	private String description;
+	
+	@OneToMany(mappedBy = "department")
+	private List<Doctor> doctors;
 }

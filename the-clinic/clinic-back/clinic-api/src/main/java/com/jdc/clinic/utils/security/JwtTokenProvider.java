@@ -13,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import com.jdc.clinic.utils.security.exception.AccessTokenExpirationException;
-import com.jdc.clinic.utils.security.exception.InvalidTokenException;
-import com.jdc.clinic.utils.security.exception.RefreshTokenExpirationException;
+import com.jdc.clinic.utils.exception.AccessTokenExpirationException;
+import com.jdc.clinic.utils.exception.InvalidTokenException;
+import com.jdc.clinic.utils.exception.RefreshTokenExpirationException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

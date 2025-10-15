@@ -31,7 +31,7 @@ public class Doctor extends BaseEntity {
 	@OneToOne(optional = false)
 	private Employee employee;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne
 	private Department department;
 	
 	@Column(nullable = false)

@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jdc.clinic.anonymous.service.AuthService;
-import com.jdc.clinic.anonymous.service.SignUpService;
 import com.jdc.clinic.auth.input.RefreshForm;
 import com.jdc.clinic.auth.input.SignInForm;
 import com.jdc.clinic.auth.input.SignUpForm;
 import com.jdc.clinic.auth.output.AuthResponse;
+import com.jdc.clinic.auth.service.SignUpService;
+import com.jdc.clinic.utils.security.AuthService;
 
 @RestController
 @RequestMapping("auth")
