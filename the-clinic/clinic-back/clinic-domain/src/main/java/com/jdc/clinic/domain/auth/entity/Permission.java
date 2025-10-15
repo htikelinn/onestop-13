@@ -32,4 +32,8 @@ public class Permission extends BaseEntity {
 	private boolean write;
 	private boolean modify;
 	private boolean delete;
+	
+	public boolean isAvailable() {
+		return read || write || modify || delete;
+	}
 }

@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Data;
 
+@Data
 @Embeddable
 public class PermissionPk implements Serializable {
 
@@ -14,6 +16,6 @@ public class PermissionPk implements Serializable {
 	private int roleId;
 	
 	@Column(nullable = false, name = "feature_id")
-	private int featureId;
+	private String featureId;
 
 }

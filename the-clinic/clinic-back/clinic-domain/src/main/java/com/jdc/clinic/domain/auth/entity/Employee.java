@@ -1,5 +1,7 @@
 package com.jdc.clinic.domain.auth.entity;
 
+import java.time.LocalDate;
+
 import com.jdc.clinic.domain.BaseEntity;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
 
@@ -34,5 +36,9 @@ public class Employee extends BaseEntity{
 	
 	@ManyToOne(optional = false)
 	private Role role;
+	
+	private String phone;
+	private LocalDate assignAt;
+	private LocalDate retiredAt;
 	
 }
