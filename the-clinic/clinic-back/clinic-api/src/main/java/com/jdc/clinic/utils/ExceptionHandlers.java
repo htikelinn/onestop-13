@@ -44,6 +44,9 @@ public class ExceptionHandlers {
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	List<String> handle(AuthenticationException e) {
+		
+		log.error("Authentication Error", e);
+
 		return List.of(switch(e) {
 		case UsernameNotFoundException _ -> "Please check your login id.";
 		case BadCredentialsException _ -> "Please check your password.";

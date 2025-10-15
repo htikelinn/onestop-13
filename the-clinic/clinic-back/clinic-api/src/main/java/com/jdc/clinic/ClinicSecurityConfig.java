@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 
 import com.jdc.clinic.utils.security.JwtTokenFilter;
+import com.jdc.clinic.utils.security.SecurityExceptionResolver;
 
 @Configuration
 public class ClinicSecurityConfig {
@@ -34,8 +35,8 @@ public class ClinicSecurityConfig {
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		
 		http.exceptionHandling(exception -> {
-			exception.accessDeniedHandler(null);
-			exception.authenticationEntryPoint(null);
+			exception.accessDeniedHandler(securityExceptionResolver());
+			exception.authenticationEntryPoint(securityExceptionResolver());
 		});
 		
 		return http.build();
@@ -54,6 +55,11 @@ public class ClinicSecurityConfig {
 	@Bean
 	JwtTokenFilter jwtTokenFilter() {
 		return new JwtTokenFilter();
+	}
+	
+	@Bean
+	SecurityExceptionResolver securityExceptionResolver() {
+		return new SecurityExceptionResolver();
 	}
 	
 }

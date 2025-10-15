@@ -1,4 +1,4 @@
-package com.jdc.clinic.employee.security;
+package com.jdc.clinic.employee;
 
 import java.util.List;
 
