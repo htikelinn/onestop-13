@@ -4,14 +4,19 @@ import static com.jdc.clinic.utils.EntityOperations.safeCall;
 
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jdc.clinic.domain.PageResult;
+import com.jdc.clinic.domain.auth.entity.Account;
+import com.jdc.clinic.domain.auth.entity.Account.Type;
 import com.jdc.clinic.domain.auth.entity.Employee;
 import com.jdc.clinic.domain.auth.entity.Employee_;
+import com.jdc.clinic.domain.auth.repo.AccountRepo;
 import com.jdc.clinic.domain.auth.repo.EmployeeRepo;
+import com.jdc.clinic.domain.auth.repo.RoleRepo;
+import com.jdc.clinic.domain.utils.ClinicBusinessException;
 import com.jdc.clinic.management.input.EmployeeForm;
 import com.jdc.clinic.management.input.EmployeeSearch;
 import com.jdc.clinic.management.output.EmployeeDetails;
@@ -20,14 +25,18 @@ import com.jdc.clinic.utils.ModificationResult;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EmployeeService {
 	
-	@Autowired
-	private EmployeeRepo employeeRepo;
-
+	private final EmployeeRepo employeeRepo;
+	private final AccountRepo accountRepo;
+	private final RoleRepo roleRepo;
+	private final PasswordEncoder passwordEncoder;
+	
 	public PageResult<EmployeeListItem> search(EmployeeSearch search, int page, int size) {
 		return employeeRepo.search(queryFunc(search), countFunc(search), page, size);
 	}
@@ -36,14 +45,56 @@ public class EmployeeService {
 		return safeCall(employeeRepo.findById(id).map(EmployeeDetails::from), "employee", "id", id);
 	}
 
+	@Transactional
 	public ModificationResult<Integer> create(EmployeeForm form) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(accountRepo.findById(form.email()).isPresent()) {
+			throw new ClinicBusinessException("%s is already used by other account.".formatted(form.email()));
+		}
+		
+		var role = safeCall(roleRepo.findById(form.roleId()), "role", "id", form.roleId());
+		
+		var account = new Account();
+		account.setName(form.name());
+		account.setEmail(form.email());
+		account.setType(Type.Employee);
+		account.setPassword(passwordEncoder.encode(form.phone()));
+		
+		account = accountRepo.save(account);
+		
+		var employee = new Employee();
+		employee.setAccount(account);
+		employee.setRole(role);
+		employee.setPhone(form.phone());
+		employee.setAssignAt(form.assignAt());
+		employee.setRetiredAt(form.retiredAt());
+		
+		employee = employeeRepo.save(employee);
+		
+		return new ModificationResult<Integer>(employee.getId());
 	}
 
+	@Transactional
 	public ModificationResult<Integer> update(int id, EmployeeForm form) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		var role = safeCall(roleRepo.findById(form.roleId()), "role", "id", form.roleId());
+		var employee = safeCall(employeeRepo.findById(id), "employee", "id", id);
+		
+		if(!employee.getAccount().getEmail().equals(form.email()) 
+				&& accountRepo.findById(form.email()).isPresent()) {
+			throw new ClinicBusinessException("%s is already used by other account.".formatted(form.email()));
+		}
+		
+		employee.setRole(role);
+		employee.setPhone(form.phone());
+		employee.setAssignAt(form.assignAt());
+		employee.setRetiredAt(form.retiredAt());
+
+		var account = employee.getAccount();
+		account.setName(form.name());
+		account.setEmail(form.email());
+		
+		return new ModificationResult<Integer>(employee.getId());
 	}
 	
 	private Function<CriteriaBuilder, CriteriaQuery<EmployeeListItem>> queryFunc(EmployeeSearch search) {
