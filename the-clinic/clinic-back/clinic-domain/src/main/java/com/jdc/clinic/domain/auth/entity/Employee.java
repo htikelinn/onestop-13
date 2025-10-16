@@ -31,7 +31,7 @@ public class Employee extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
 	private Account account;
 	
 	@ManyToOne(optional = false)

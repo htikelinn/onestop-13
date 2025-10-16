@@ -43,7 +43,7 @@ public class Patient extends BaseEntity {
 	private String occupation;
 	
 	private Gender gender;
-	private BloodGroup bloodType;
+	private BloodGroup bloodGroup;
 	
 	private Address address;
 	
