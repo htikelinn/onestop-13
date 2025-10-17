@@ -1,19 +1,65 @@
 'use server'
 
-import { AuthResult, Menu, SignInForm, SignUpForm } from "../model/auth-model"
+import { AccountInfo, AuthResponse, AuthResult, Menu, SignInForm, SignUpForm } from "../model/auth-model"
+import { cookies } from "next/headers"
+import { fetchApi, fetchWithAuth, withAuth } from "./utils"
 
 
 export async function signInAction(form:SignInForm):Promise<AuthResult> {
-    if(["patient", "employee"].includes(form.password.toLocaleLowerCase())) {
+    
+    try {
+        const response = await fetchApi("auth/signin", {
+            method: "POST",
+            body: JSON.stringify(form),
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        })
+
+        const {accessToken, refreshToken, ...accountInfo} = await response.json() as AuthResponse
+        
+        const secure = process.env.NODE_ENV === "production"
+
+        const cookieStore = await cookies()
+        
+        cookieStore.set('accessToken', accessToken, {
+            httpOnly: true,
+            secure: secure,
+            sameSite: 'lax',
+            path: "/",
+            maxAge: 60 * 60
+        })
+
+        cookieStore.set('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: secure,
+            sameSite: 'lax',
+            path: "/",
+            maxAge: 60 * 60
+        })
+
+        cookieStore.set('accountInfo', JSON.stringify(accountInfo), {
+            httpOnly: true,
+            secure: secure,
+            sameSite: 'lax',
+            path: "/",
+            maxAge: 60 * 60
+        })
+
         return {
             success: true,
-            message: form.password
+            message: accountInfo.role == 'Patient' ? "/patient" : '/staff'
         }
-    }
 
-    return {
-        success: false,
-        message: "Please check your login information."
+    } catch (e : any) {
+        if(e.status && e.messages) {
+            return {
+                success: false,
+                message: e.messages
+            }
+        }
+
+        throw e
     }
 }
 
@@ -37,23 +83,17 @@ export async function signUpAction(form:SignUpForm):Promise<AuthResult> {
 }
 
 export async function getEmployeeMenus():Promise<Menu[]> {
-    return [
-        {name: "Appointments", icon: 'CalendarCheck', items: [
-            {name: "Create Appointment", path: ""},
-            {name: "Check In", path: ""},
-            {name: "Consultation", path: ""},
-            {name: "Treatment", path: ""},
-            {name: "Check Out", path: ""},
-        ]},
-        {name: "Patients", icon: 'Users', path: "/employee/patients"},
-        {name: "Visit History", icon: 'History', path: "/employee/visits"},
-        {name: "Test & Lab Results", icon: 'Microscope', path: "/employee/tests"},
-        {name: "Management", icon: 'Settings', items: [
-            {name: 'Employee', path: '/'},
-            {name: 'Inventory', path: '/'},
-            {name: 'Schedule', path: '/'},
-        ]},
-        {name: "Messages", icon : 'Mail', path: '/'},
-        {name: "User Profile", icon : 'User', path: '/'}
-    ]
+
+    const cookieStore = await cookies()
+    const loginUserString = cookieStore.get("accountInfo")?.value
+
+    if(!loginUserString) {
+        throw new Error("There is no login user.")
+    }
+
+    const loginUser = JSON.parse(loginUserString) as AccountInfo
+
+    const response = await fetchWithAuth(`staff/menu/${loginUser.email}`, {})
+
+    return await response.json() as Menu[]
 }

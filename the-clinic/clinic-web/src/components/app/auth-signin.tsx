@@ -28,7 +28,7 @@ export default function ClientSignIn() {
         const result = await signInAction(form)
 
         if(result.success) {
-            router.replace(`/${result.message.toLowerCase()}`)
+            router.replace(result.message as string)
         } else {
             toast("Authentication Error", {
                 description: result.message

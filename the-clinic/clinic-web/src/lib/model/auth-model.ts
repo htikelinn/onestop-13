@@ -1,5 +1,4 @@
 import * as z from 'zod'
-import React from "react"
 import * as lucideIcons from 'lucide-react'
 
 export const SignInSchema = z.object({
@@ -17,13 +16,16 @@ export const SignUpSchema = z.object({
 
 export type SignUpForm = z.infer<typeof SignUpSchema>
 
-/**
- * Server Response
- */
-export type AuthResponse = {
+export type AccountInfo = {
     name: string
     email: string
     role: 'Patient' | 'Employee' | 'Admin'
+}
+
+/**
+ * Server Response
+ */
+export type AuthResponse = AccountInfo & {
     accessToken: string
     refreshToken: string
 }
@@ -33,19 +35,23 @@ export type AuthResponse = {
  */
 export type AuthResult = {
     success: boolean
-    message: string
+    message: string | string[]
 }
 
 export type Menu = {
-    name: string
-    icon: keyof typeof lucideIcons
-    path?: string
-    items?: SubMenu[]
+    group: string
+    items: SubMenu[]
 }
 
 export type SubMenu = {
+    icon: LucideIconType
     name: string
     path: string
 }
 
 export type LucideIconType = keyof typeof lucideIcons
+
+export type RestClientError = {
+    status: number
+    messages: string []
+}
