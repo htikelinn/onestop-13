@@ -1,7 +1,7 @@
 'use server'
 
 import { addDays } from "date-fns";
-import { DepartmentForHome, DoctorForHome, DoctorSchedule } from "../model/public-home.model";
+import { DepartmentForHome, DoctorForHome, DoctorSchedule } from "./public-home.model";
 
 export async function getDepartmentsForHome():Promise<DepartmentForHome[]> {
     return [

@@ -2,7 +2,7 @@ import AppSidebar from "@/components/app/app-sidebar";
 import ChangePasswordMenu from "@/components/app/menu-change-password";
 import LogoutMenu from "@/components/app/menu-logout";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { MenuGroup } from "@/lib/model/auth-model";
+import { MenuGroup } from "@/lib/model/auth.model";
 import type { LayoutProps } from "@/lib";
 import React from "react";
 import AppHeader from "@/components/app/app-header";

@@ -1,7 +1,9 @@
 package com.jdc.clinic.master.output;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.jdc.clinic.domain.master.Schedule;
 import com.jdc.clinic.domain.master.entity.Doctor;
 
 public record DoctorDetails(
@@ -10,10 +12,12 @@ public record DoctorDetails(
 		String phone,
 		String email,
 		String title,
+		String degree,
 		int departmentId,
 		String department,
 		int roleId,
 		String roleName,
+		List<Schedule> schedules,
 		boolean deleted,
 		LocalDateTime createdAt,
 		String createdBy,
@@ -21,7 +25,22 @@ public record DoctorDetails(
 		String modifiedBy) {
 	
 	public static DoctorDetails from(Doctor entity) {
-		return null;
+		return new DoctorDetails(
+			entity.getId(), 
+			entity.getEmployee().getAccount().getName(), 
+			entity.getEmployee().getPhone(), 
+			entity.getEmployee().getAccount().getEmail(), 
+			entity.getTitle(), entity.getDegree(), 
+			entity.getDepartment().getId(), 
+			entity.getDepartment().getName(), 
+			entity.getEmployee().getRole().getId(), 
+			entity.getEmployee().getRole().getName(), 
+			entity.getSchedules(),
+			entity.isDeleted(), 
+			entity.getCreatedAt(), 
+			entity.getCreatedBy(), 
+			entity.getModifiedAt(), 
+			entity.getModifiedBy());
 	}
 
 }

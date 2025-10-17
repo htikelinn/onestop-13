@@ -19,6 +19,8 @@ public record DoctorForm(
 		String phone,
 		@NotBlank(message = "Please enter assign date.")
 		LocalDate assignAt,
+		@NotNull(message = "Please select role.")
+		Integer roleId,
 		@NotNull(message = "Please select department.")
 		Integer departmentId,
 		@NotBlank(message = "Please enter job title.")

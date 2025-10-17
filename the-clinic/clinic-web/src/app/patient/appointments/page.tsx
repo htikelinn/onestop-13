@@ -1,6 +1,6 @@
 import Pagination from "@/components/app/pagination"
 import SearchForm from "./_lib/search-form"
-import * as appointmentApi from "@/lib/service/appointment-service"
+import * as appointmentApi from "@/lib/model/appointment.service"
 import NoSearchResult from "@/components/app/no-search-result"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ArrowRight } from "lucide-react"

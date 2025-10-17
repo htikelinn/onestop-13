@@ -1,4 +1,4 @@
-import { Menu, SubMenu } from "@/lib/model/auth-model";
+import { Menu, SubMenu } from "@/lib/model/auth.model";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import Link from "next/link";
 import React from "react";

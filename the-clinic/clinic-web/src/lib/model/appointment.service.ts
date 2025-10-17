@@ -1,6 +1,8 @@
+'use server'
+
 import { format } from "date-fns";
-import { DUMMY_PAGE, ModificationResult, PageResult } from "../model/common.model";
-import { AppointmentCancelForm, AppointmentDetails, AppointmentForm, AppointmentListItem, PublicAppointmentForm } from "../model/appointment.model";
+import { AppointmentCancelForm, AppointmentDetails, AppointmentForm, AppointmentListItem, PublicAppointmentForm } from "./appointment.model";
+import { DUMMY_PAGE, ModificationResult, PageResult } from "..";
 
 export async function search(form: Record<string, string | string [] | undefined>):Promise<PageResult<AppointmentListItem>> {
     console.log(form)

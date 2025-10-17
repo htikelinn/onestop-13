@@ -1,10 +1,10 @@
-import { ShieldCheck, Stethoscope, UserLock, UserStar } from "lucide-react";
+import PageTitle from "@/components/app/page-title";
+import { LayoutDashboard, ShieldCheck, Stethoscope, UserLock, UserStar } from "lucide-react";
 
 export default function EmployeeHome() {
     return (
         <>
-            Employee
-            <ShieldCheck />    
+            <PageTitle icon={<LayoutDashboard className="size-4" />} name="Staff Dashboard" />
         </>
     )
 }

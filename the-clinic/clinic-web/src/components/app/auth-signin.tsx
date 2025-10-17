@@ -7,10 +7,10 @@ import FormsInput from "@/components/forms/forms-input"
 import { Unlock, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { signInAction } from "@/lib/service/auth-service"
+import { signInAction } from "@/lib/model/auth.service"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { SignInForm, SignInSchema } from "@/lib/model/auth-model"
+import { SignInForm, SignInSchema } from "@/lib/model/auth.model"
 
 export default function ClientSignIn() {
 

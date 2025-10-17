@@ -1,5 +1,6 @@
 import * as z from 'zod'
 import * as lucideIcons from 'lucide-react'
+import React from 'react'
 
 export const SignInSchema = z.object({
     email : z.string().nonempty("Please enter email for login."),
@@ -40,7 +41,7 @@ export type AuthResult = {
 
 export type Menu = {
     group: string
-    items: SubMenu[]
+    items: (SubMenu | React.ReactNode)[]
 }
 
 export type SubMenu = {

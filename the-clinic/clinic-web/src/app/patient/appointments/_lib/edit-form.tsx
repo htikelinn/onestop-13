@@ -8,7 +8,7 @@ import { DoctorForHome, DoctorSchedule } from "@/lib/model/public-home.model";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import * as publicApi from '@/lib/service/public-home-service'
+import * as publicApi from '@/lib/model/public-home.service'
 import { formatDate } from "date-fns";
 import FormsTextarea from "@/components/forms/forms-textarea";
 import { Button } from "@/components/ui/button";

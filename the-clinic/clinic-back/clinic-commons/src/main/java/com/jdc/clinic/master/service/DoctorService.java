@@ -14,6 +14,7 @@ import com.jdc.clinic.domain.auth.entity.Employee;
 import com.jdc.clinic.domain.auth.entity.Employee_;
 import com.jdc.clinic.domain.auth.repo.AccountRepo;
 import com.jdc.clinic.domain.auth.repo.EmployeeRepo;
+import com.jdc.clinic.domain.auth.repo.RoleRepo;
 import com.jdc.clinic.domain.master.entity.Doctor;
 import com.jdc.clinic.domain.master.entity.Doctor_;
 import com.jdc.clinic.domain.master.repo.DepartmentRepo;
@@ -37,6 +38,7 @@ public class DoctorService {
 	private final AccountRepo accountRepo;
 	private final DepartmentRepo departmentRepo;
 	private final PasswordEncoder passwordEncoder;
+	private final RoleRepo roleRepo;
 
 	public List<DoctorListItem> search(DoctorSearch search) {
 		return doctorRepo.search(cb -> {
@@ -69,6 +71,8 @@ public class DoctorService {
 		var department = safeCall(departmentRepo.findById(form.departmentId()), 
 				"department", "id", form.departmentId());
 		
+		var role = safeCall(roleRepo.findById(form.roleId()), "role", "id", form.roleId());
+		
 		var account = new Account();
 		account.setEmail(form.email());
 		account.setName(form.name());
@@ -80,6 +84,7 @@ public class DoctorService {
 		employee.setAccount(account);
 		employee.setPhone(form.phone());
 		employee.setAssignAt(form.assignAt());
+		employee.setRole(role);
 		employee = employeeRepo.save(employee);
 		
 		var doctor = new Doctor();
@@ -106,9 +111,15 @@ public class DoctorService {
 			doctor.setDepartment(department);
 		}
 		
+		
 		var employee = doctor.getEmployee();
 		employee.setPhone(form.phone());
 		employee.setAssignAt(form.assignAt());
+
+		if(doctor.getEmployee().getRole().getId() != form.roleId()) {
+			var role = safeCall(roleRepo.findById(form.roleId()), "role", "id", form.roleId());
+			employee.setRole(role);
+		}
 		
 		var account = employee.getAccount();
 		if(!account.getEmail().equals(form.email()) 

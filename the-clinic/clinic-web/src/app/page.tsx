@@ -1,7 +1,7 @@
 import PublicHero from "@/components/app/public-hero";
 import { Button } from "@/components/ui/button";
 import { DepartmentForHome, DoctorForHome } from "@/lib/model/public-home.model";
-import { getDepartmentsForHome, getDoctorsForHome } from "@/lib/service/public-home-service";
+import { getDepartmentsForHome, getDoctorsForHome } from "@/lib/model/public-home.service";
 import { DoorOpen, HeartPlus } from "lucide-react";
 import Link from "next/link";
 import * as LucideIcons from 'lucide-react'

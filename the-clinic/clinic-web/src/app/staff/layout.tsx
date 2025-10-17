@@ -4,14 +4,22 @@ import ChangePasswordMenu from "@/components/app/menu-change-password";
 import LogoutMenu from "@/components/app/menu-logout";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import type { LayoutProps } from "@/lib";
-import { Menu } from "@/lib/model/auth-model";
-import { getEmployeeMenus } from "@/lib/service/auth-service";
+import { Menu } from "@/lib/model/auth.model";
+import { getEmployeeMenus } from "@/lib/model/auth.service";
 
 export default async function EmployeeLayout({children} : LayoutProps) {
     
     const menus = await getEmployeeMenus()
 
-    console.log(menus)
+    const personamMenu:Menu = {
+        group: "Personal Setting",
+        items: [
+            <ChangePasswordMenu />,
+            <LogoutMenu />
+        ]
+    }
+
+    menus.push(personamMenu)
 
     return (
         <SidebarProvider>
@@ -19,13 +27,20 @@ export default async function EmployeeLayout({children} : LayoutProps) {
 
             <SidebarInset>
                 <AppHeader baseUrl="/staff" routeNames={ROUTE_NAMES} />
-                {children}
+
+                <main className="px-8 py-4">
+                    {children}
+                </main>
             </SidebarInset>
         </SidebarProvider>
     )
 }
 
 const ROUTE_NAMES = new Map<string, string>
-ROUTE_NAMES.set("patients", "Patient Management")
-ROUTE_NAMES.set("visits", "Visit History")
-ROUTE_NAMES.set("tests", "Test & Lab Result")
+ROUTE_NAMES.set("appointment", "Appointments")
+ROUTE_NAMES.set("employee", "Employee Management")
+ROUTE_NAMES.set("patient", "Patient Management")
+ROUTE_NAMES.set("department", "Department Master")
+ROUTE_NAMES.set("doctor", "Doctor Master")
+ROUTE_NAMES.set("feature", "Application Features")
+ROUTE_NAMES.set("roles-permissions", "Roles & Permissions")

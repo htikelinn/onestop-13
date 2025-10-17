@@ -1,4 +1,4 @@
-import { LucideIconType } from "@/lib/model/auth-model";
+import { LucideIconType } from "@/lib/model/auth.model";
 import * as lucides from "lucide-react"
 
 export default function SectionTitle({title, icon} : {title: string, icon? : LucideIconType}) {

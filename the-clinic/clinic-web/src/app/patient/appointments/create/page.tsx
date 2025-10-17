@@ -1,4 +1,4 @@
-import { getDoctorsForHome } from "@/lib/service/public-home-service"
+import { getDoctorsForHome } from "@/lib/model/public-home.service"
 import AppointmentEditForm from "../_lib/edit-form"
 import { CalendarCheck } from "lucide-react"
 
