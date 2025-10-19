@@ -4,7 +4,6 @@ import { LayoutDashboard, ShieldCheck, Stethoscope, UserLock, UserStar } from "l
 export default function EmployeeHome() {
     return (
         <>
-            <PageTitle icon={<LayoutDashboard className="size-4" />} name="Staff Dashboard" />
         </>
     )
 }

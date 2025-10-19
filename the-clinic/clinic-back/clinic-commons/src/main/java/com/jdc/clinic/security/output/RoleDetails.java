@@ -11,7 +11,9 @@ public record RoleDetails(
 		String description,
 		boolean deleted,
 		LocalDateTime createdAt,
+		String createdBy,
 		LocalDateTime modifiedAt, 
+		String modifiedBy,
 		List<RolePermission> permissions) {
 
 	public static RoleDetails from(Role entity) {
@@ -21,7 +23,9 @@ public record RoleDetails(
 				entity.getDescription(), 
 				entity.isDeleted(), 
 				entity.getCreatedAt(), 
-				entity.getModifiedAt(), 
+				entity.getCreatedBy(),
+				entity.getModifiedAt(),
+				entity.getModifiedBy(),
 				entity.getPermissions().stream()
 					.map(RolePermission::from).toList());
 	}

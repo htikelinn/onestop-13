@@ -5,6 +5,7 @@ export const DoctorSchema = z.object({
     name: z.string().nonempty("Please enter doctor name."),
     email: z.string().nonempty("Please enter email address."),
     phone: z.string().nonempty("Please enter phone number."),
+    roleId: z.number().nonoptional("Please select role"),
     assignAt: z.date().nonoptional("Please select assign date."),
     departmentId: z.number().nonoptional("Please select department."),
     title: z.string().nonempty("Please enter title."),

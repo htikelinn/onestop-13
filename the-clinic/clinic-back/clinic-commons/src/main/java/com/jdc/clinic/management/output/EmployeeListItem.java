@@ -1,6 +1,7 @@
 package com.jdc.clinic.management.output;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.jdc.clinic.domain.auth.entity.Account_;
 import com.jdc.clinic.domain.auth.entity.Employee;
@@ -17,7 +18,11 @@ public record EmployeeListItem(
 		String phone,
 		String email,
 		LocalDate assignAt,
-		LocalDate retiredAt) {
+		LocalDate retiredAt,
+		boolean deleted,
+		LocalDateTime cretedAt,
+		LocalDateTime modifiedAt
+) {
 
 	public static void select(CriteriaQuery<EmployeeListItem> cq, Root<Employee> root) {
 		
@@ -30,7 +35,10 @@ public record EmployeeListItem(
 			root.get(Employee_.phone),
 			account.get(Account_.email),
 			root.get(Employee_.assignAt),
-			root.get(Employee_.retiredAt)
+			root.get(Employee_.retiredAt),
+			root.get(Employee_.deleted),
+			root.get(Employee_.createdAt),
+			root.get(Employee_.modifiedAt)
 		);
 	}
 

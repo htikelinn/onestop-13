@@ -28,12 +28,13 @@ public class Permission extends BaseEntity {
 	@JoinColumn(name = "feature_id", insertable = false, updatable = false)
 	private Feature feature;
 	
-	private boolean read;
-	private boolean write;
-	private boolean modify;
-	private boolean delete;
+	private Type permission;
+	
+	public enum Type {
+		Read, Write, Modify, Delete
+	}
 	
 	public boolean isAvailable() {
-		return read || write || modify || delete;
+		return null != permission;
 	}
 }

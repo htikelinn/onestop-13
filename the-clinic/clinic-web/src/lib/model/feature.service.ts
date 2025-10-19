@@ -1,7 +1,8 @@
 'use server'
 
 import { AppFeature, FeatureSearch } from "./feature.model";
-import { fetchWithAuth, queryString } from "../rest-client.utils";
+import { fetchWithAuth } from "../rest-client.utils";
+import { queryString } from "../utils";
 
 export async function search(form: FeatureSearch):Promise<AppFeature[]> {
     const response =  await fetchWithAuth(`staff/feature?${queryString(form)}`)

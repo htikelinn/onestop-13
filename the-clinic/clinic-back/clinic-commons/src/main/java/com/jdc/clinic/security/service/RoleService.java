@@ -72,10 +72,7 @@ public class RoleService {
 			permission.setFeature(feature);
 			permission.setRole(role);
 			
-			permission.setRead(formItem.read());
-			permission.setWrite(formItem.write());
-			permission.setModify(formItem.modify());
-			permission.setDelete(formItem.delete());
+			permission.setPermission(formItem.permission());
 			
 			permissionRepo.save(permission);
 		}
@@ -103,10 +100,7 @@ public class RoleService {
 			var formItem = itemMap.get(permission.getId().getFeatureId());
 			
 			if(null != formItem) {
-				permission.setRead(formItem.read());
-				permission.setWrite(formItem.write());
-				permission.setModify(formItem.modify());
-				permission.setDelete(formItem.delete());
+				permission.setPermission(formItem.permission());
 			}
 		}
 		

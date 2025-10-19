@@ -6,12 +6,29 @@ services:
       - POSTGRES_DB=clinicdb
     env_file:
       - .env.postgres
+    networks:
+      - clinic.net
     ports:
       - 5432:5432
     volumes:
       - dbdata:/var/lib/postgresql/data
+
+  api:
+    build: 
+      context: ./clinic-back
+      dockerfile: Dockerfile
+    container_name: clinic-api
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    env_file:
+      - .env.postgres
+      - .env.adminuser
     networks:
       - clinic.net
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
 
 volumes:
   dbdata:

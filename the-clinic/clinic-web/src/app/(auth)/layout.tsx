@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button"
 import type { LayoutProps } from "@/lib"
+import { clearAuthResult } from "@/lib/login-info.utils"
 import { ArrowLeft, HeartPlus } from "lucide-react"
 import Image from 'next/image'
 import Link from "next/link"
 
 export default function AuthLayout({children} : LayoutProps) {
+
     return (
         <div className="h-screen flex">
             <div className="flex-1 relative overflow-hidden">

@@ -1,7 +1,8 @@
 'use server'
 
 import { ModificationResult } from ".."
-import { fetchWithAuth, queryString } from "../rest-client.utils"
+import { fetchWithAuth } from "../rest-client.utils"
+import { queryString } from "../utils"
 import { EmployeeDetails, EmployeeForm, EmployeeListItem, EmployeeSearch } from "./employee.model"
 
 const ENDPOINT = "staff/employee"

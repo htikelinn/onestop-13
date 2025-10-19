@@ -1,9 +1,10 @@
 'use server'
 
-import { AccountInfo, AuthResponse, AuthResult, Menu, SignInForm, SignUpForm } from "./auth.model"
+import { AuthResponse, AuthResult, Menu, SignInForm, SignUpForm } from "./auth.model"
+import { fetchApi, fetchWithAuth } from "../rest-client.utils"
+import { getLoginUser, getRefreshToken, setAuthResult, } from "../login-info.utils"
 import { cookies } from "next/headers"
-import { fetchApi, fetchWithAuth, setAuthResult, withAuth } from "../rest-client.utils"
-
+import { redirect } from "next/navigation"
 
 export async function signInAction(form:SignInForm):Promise<AuthResult> {
     
@@ -68,18 +69,39 @@ export async function signUpAction(form:SignUpForm):Promise<AuthResult> {
     }
 }
 
-export async function getEmployeeMenus():Promise<Menu[]> {
+export async function refreshToken():Promise<string | undefined> {
+    
+    const refreshToken = await getRefreshToken()
 
-    const cookieStore = await cookies()
-    const loginUserString = cookieStore.get("accountInfo")?.value
+    const refreshUrl = `${process.env.BASEURL}/auth/refresh`
 
-    if(!loginUserString) {
-        throw new Error("There is no login user.")
+    const response = await fetch(refreshUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+            token: refreshToken
+        })
+    })
+
+    if(response.ok) {
+        const authResponse = await response.json() as AuthResponse
+        await setAuthResult(authResponse)
+        return authResponse.accessToken
     }
+}
 
-    const loginUser = JSON.parse(loginUserString) as AccountInfo
-
+export async function getEmployeeMenus():Promise<Menu[]> {
+    const loginUser = await getLoginUser()
     const response = await fetchWithAuth(`staff/menu/${loginUser.email}`, {})
-
     return await response.json() as Menu[]
+}
+
+export async function logoutAction() {
+    const cookieStore = await cookies()
+    cookieStore.delete("accessToken")
+    cookieStore.delete("refreshToken")
+    cookieStore.delete("accountInfo")
+    redirect("/signin")
 }

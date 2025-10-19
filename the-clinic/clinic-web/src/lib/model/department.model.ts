@@ -19,7 +19,7 @@ export type DepartmentSearch = {
 export type DepartmentListItem = {
     id: number
     name: string
-    icon? : string
+    icon : string
     phone: string
     doctors: number
 } & ListBase

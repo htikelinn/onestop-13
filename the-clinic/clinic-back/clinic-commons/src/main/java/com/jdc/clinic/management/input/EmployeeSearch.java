@@ -18,6 +18,7 @@ public record EmployeeSearch(
 		Integer roleId,
 		LocalDate assignFrom, 
 		LocalDate assignto, 
+		Boolean deleted,
 		String keyword) {
 
 	public Predicate[] where(CriteriaBuilder cb, Root<Employee> root) {
@@ -34,6 +35,10 @@ public record EmployeeSearch(
 		
 		if(null != assignto) {
 			params.add(cb.lessThanOrEqualTo(root.get(Employee_.assignAt), assignto));
+		}
+		
+		if(null != deleted) {
+			params.add(cb.equal(root.get(Employee_.deleted), deleted));
 		}
 		
 		if(StringUtils.hasLength(keyword)) {
