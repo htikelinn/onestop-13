@@ -24,3 +24,14 @@ export function queryString(form: {[key: string] : string | string[] | undefined
 
     return params.toString()
 } 
+
+export class RestClientError {
+    constructor(readonly messages:string[]) {}
+}
+
+export const POST_INIT:RequestInit = {
+    method: "POST",
+    headers: {
+        "Content-Type" : "application/json"
+    },
+}

@@ -28,7 +28,7 @@ public class ClinicSecurityConfig {
 			request.requestMatchers("/auth/**").permitAll();
 			request.requestMatchers("/patient/**").hasAuthority("Patient");
 			request.requestMatchers("/staff/**").hasAnyAuthority("Employee", "Admin");
-			request.anyRequest().denyAll();
+			request.anyRequest().authenticated();
 		});
 		
 		http.addFilterAfter(jwtTokenFilter(), ExceptionTranslationFilter.class);

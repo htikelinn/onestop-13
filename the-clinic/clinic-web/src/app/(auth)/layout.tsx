@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button"
 import type { LayoutProps } from "@/lib"
-import { clearAuthResult } from "@/lib/login-info.utils"
 import { ArrowLeft, HeartPlus } from "lucide-react"
 import Image from 'next/image'
 import Link from "next/link"

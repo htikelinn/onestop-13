@@ -37,13 +37,6 @@ export async function setAuthResult(response : AuthResponse) {
     })
 }
 
-export async function clearAuthResult() {
-    const cookieStore = await cookies()
-    cookieStore.delete("accessToken") 
-    cookieStore.delete("refreshToken") 
-    cookieStore.delete("accountInfo") 
-}
-
 export async function getLoginUser() {
     const cookieStore = await cookies()
     const loginUserString = cookieStore.get("accountInfo")?.value
