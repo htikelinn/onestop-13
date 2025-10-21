@@ -1,16 +1,19 @@
-'use server'
 import "server-only"
-import { getAccessToken, getRefreshToken } from "./login-infos"
+
+import { getAccessToken, getRefreshToken, setAuthResult } from "./login-infos"
 import { redirect } from "next/navigation"
-import { RestClientError } from "./utils"
+import { POST_INIT, RestClientError } from "./utils"
 import { AuthResponse } from "./model/auth.model"
-import { headers } from "next/headers"
 
 export async function publicRequest(path: string, options : RequestInit = {}) {
     const response = await fetch(`${process.env.APIURL}/${path}`, options)
 
     if(response.status === 400) {
-        throw new RestClientError(await response.json() as string[])
+        throw new RestClientError('Business', await response.json() as string[])
+    }
+
+    if(response.status === 500) {
+        throw new RestClientError('Server', await response.json() as string[])
     }
 
     return response
@@ -42,18 +45,15 @@ export async function secureRequest(path: string, options : RequestInit = {}) {
 
         const refreshToken = await getRefreshToken()
 
-        const refreshResponse = await fetch(`${process.env.APPURL}/refresh`, {
-            method : "POST",
-            headers: {
-                "Content-type" : "application/json"
-            },
+        const refreshResponse = await fetch(`${process.env.APIURL}/auth/refresh`, {
+            ...POST_INIT,
             body: JSON.stringify({
-                token : refreshToken
+                token: refreshToken
             })
         })
 
         if(refreshResponse.ok) {
-            const refreshResult = await refreshResponse.json() as AuthResponse      
+            const refreshResult = await refreshResponse.json() as AuthResponse  
             response = await fetchWithToken(refreshResult.accessToken)
         } else {
             redirect("/signin")
@@ -65,7 +65,11 @@ export async function secureRequest(path: string, options : RequestInit = {}) {
     }
 
     if(response?.status === 400) {
-        throw new RestClientError(await response.json() as string[])
+        throw new RestClientError('Business', await response.json() as string[])
+    }
+
+    if(response?.status === 500) {
+        throw new RestClientError('Server', await response.json() as string[])
     }
 
     return response

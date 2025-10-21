@@ -5,7 +5,7 @@ import { DetailsBase, ListBase } from ".."
 export const DepartmentSchema = z.object({
     name: z.string().nonempty("Please enter department name."),
     phone: z.string().nonempty("Please enter phone number for department."),
-    icon: z.string(),
+    icon: z.string().nonempty("Please select icon."),
     description: z.string()
 })
 
@@ -29,5 +29,6 @@ export type DepartmentDetails = {
     name: string
     icon? : string
     phone: string
+    description: string
     doctors: DoctorListItem[]
 } & DetailsBase

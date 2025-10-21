@@ -28,7 +28,7 @@ export type PageResult<T> = {
 
 export type ModificationResult = {
     success: boolean
-    message: string
+    message: string | string []
 }
 
 export const DUMMY_PAGE:PagerInfo = {

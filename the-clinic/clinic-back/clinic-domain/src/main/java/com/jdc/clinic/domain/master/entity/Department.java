@@ -33,7 +33,7 @@ public class Department extends BaseEntity {
 	@Column(nullable = false)
 	private String phone;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String description;
 	
 	@OneToMany(mappedBy = "department")

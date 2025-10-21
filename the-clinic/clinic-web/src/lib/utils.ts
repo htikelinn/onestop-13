@@ -26,11 +26,21 @@ export function queryString(form: {[key: string] : string | string[] | undefined
 } 
 
 export class RestClientError {
-    constructor(readonly messages:string[]) {}
+    constructor(
+        readonly type:'Business' | 'Server',
+        readonly messages:string[]
+    ) {}
 }
 
 export const POST_INIT:RequestInit = {
     method: "POST",
+    headers: {
+        "Content-Type" : "application/json"
+    },
+}
+
+export const PUT_INIT:RequestInit = {
+    method: "PUT",
     headers: {
         "Content-Type" : "application/json"
     },
