@@ -1,9 +1,8 @@
-import "server-only"
-
 import { getAccessToken, getRefreshToken, setAuthResult } from "./login-infos"
 import { redirect } from "next/navigation"
-import { POST_INIT, RestClientError } from "./utils"
+import { POST_INIT, PUT_INIT, RestClientError } from "./utils"
 import { AuthResponse } from "./model/auth.model"
+import { ModificationResult } from "."
 
 export async function publicRequest(path: string, options : RequestInit = {}) {
     const response = await fetch(`${process.env.APIURL}/${path}`, options)
@@ -75,3 +74,50 @@ export async function secureRequest(path: string, options : RequestInit = {}) {
     return response
 }
 
+export async function safeCreate(path:string, json: string) : Promise<ModificationResult> {
+    try {
+        const response = await secureRequest(path, {
+            ...POST_INIT,
+            body: json
+        })
+
+        const { id } = await response.json()
+
+        return {
+            success: true,
+            message: id
+        }
+    } catch (e) {
+        if(e instanceof RestClientError) {
+            return {
+                success: false,
+                message: e.messages
+            }
+        }
+        throw e
+    }
+}
+
+export async function safeUpdate(path:string, json: string) : Promise<ModificationResult> {
+    try {
+        const response = await secureRequest(path, {
+            ...PUT_INIT,
+            body: json
+        })
+
+        const { id } = await response.json()
+
+        return {
+            success: true,
+            message: id
+        }
+    } catch (e) {
+        if(e instanceof RestClientError) {
+            return {
+                success: false,
+                message: e.messages
+            }
+        }
+        throw e
+    }
+}

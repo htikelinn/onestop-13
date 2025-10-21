@@ -1,8 +1,8 @@
 'use server'
 
 import { ModificationResult } from ".."
-import { secureRequest } from "../rest-clients"
-import { queryString, safeCreate, safeUpdate } from "../utils"
+import { secureRequest, safeCreate, safeUpdate } from "../rest-clients"
+import { queryString } from "../utils"
 import { DoctorDetails, DoctorForm, DoctorListItem, DoctorSearch } from "./doctor.model"
 
 const ENDPOINT = "staff/doctor"

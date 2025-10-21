@@ -1,5 +1,3 @@
-'use server'
-
 import { cookies } from "next/headers"
 import { AccountInfo, AuthResponse } from "./model/auth.model"
 import { redirect } from "next/navigation"

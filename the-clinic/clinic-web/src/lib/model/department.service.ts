@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
 import { ModificationResult } from ".."
-import { secureRequest } from "../rest-clients"
-import { queryString, safeCreate, safeUpdate } from "../utils"
+import { secureRequest, safeCreate, safeUpdate  } from "../rest-clients"
+import { queryString } from "../utils"
 import { DepartmentDetails, DepartmentForm, DepartmentListItem, DepartmentSearch } from "./department.model"
 
 const ENDPOINT = "staff/department"
