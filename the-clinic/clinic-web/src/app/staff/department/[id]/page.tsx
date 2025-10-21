@@ -8,18 +8,17 @@ import * as lucideIcons from 'lucide-react'
 import { LucideIconType } from "@/lib/model/auth.model"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Table, TableCell, TableHead, TableRow } from "@/components/ui/table"
 import { DoctorListItem } from "@/lib/model/doctor.model"
 import { Card } from "@/components/ui/card"
 import SecurityInfo from "@/components/app/security-info"
 import NoSearchResult from "@/components/app/no-search-result"
+import IconComponent from "@/components/app/icon-component"
 
 export default function DepartmentDetailsView() {
 
     const { id } = useParams()
     const [details, setDetails] = useState<DepartmentDetails>()
 
-    const Icon = lucideIcons[(details?.icon || 'Network') as LucideIconType] as lucideIcons.LucideIcon
     const doctors = details?.doctors || []
 
     useEffect(() => {
@@ -39,7 +38,7 @@ export default function DepartmentDetailsView() {
             <section>
                 <h1 className="flex justify-between items-center">
                     <div className="flex items-center-safe gap-3">
-                        <Icon className="size-6" /> 
+                        <IconComponent name={(details?.icon || 'ArrowRight') as LucideIconType} className="size-6" />
                         <div>
                             <span className="text-xl block">{details?.name}</span>
                             <span>{details?.phone}</span> - <span>{details?.deleted ? "Deleted" : "Active"}</span>

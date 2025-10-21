@@ -1,41 +1,26 @@
 'use server'
 
 import { ModificationResult } from ".."
-import { fetchWithAuth } from "../rest-client.utils"
-import { queryString } from "../utils"
+import { secureRequest } from "../rest-clients"
+import { queryString, safeCreate, safeUpdate } from "../utils"
 import { DoctorDetails, DoctorForm, DoctorListItem, DoctorSearch } from "./doctor.model"
 
 const ENDPOINT = "staff/doctor"
 
 export async function search(form: DoctorSearch) : Promise<DoctorListItem[]> {
-    const response = await fetchWithAuth(`${ENDPOINT}?${queryString(form)}`)
+    const response = await secureRequest(`${ENDPOINT}?${queryString(form)}`)
     return await response.json()
 }
 
 export async function findById(id: number):Promise<DoctorDetails> {
-    const response = await fetchWithAuth(`${ENDPOINT}/${id}`)
+    const response = await secureRequest(`${ENDPOINT}/${id}`)
     return await response.json()
 }
 
 export async function create(form: DoctorForm): Promise<ModificationResult> {
-    const response = await fetchWithAuth(ENDPOINT, {
-        method: "POST",
-        headers: {
-            "Content-Type" : "application/json"
-        },
-        body: JSON.stringify(form)
-    })
-
-    return await response.json()
+    return await safeCreate(ENDPOINT, JSON.stringify(form))
 }
 
 export async function update(id: number, form: DoctorForm) : Promise<ModificationResult> {
-    const response = await fetchWithAuth(`${ENDPOINT}/${id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type" : "application/json"
-        },
-        body: JSON.stringify(form)
-    })
-    return await response.json()
+    return await safeUpdate(`${ENDPOINT}/${id}`, JSON.stringify(form))
 }

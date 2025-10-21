@@ -1,20 +1,18 @@
 'use server'
 
 import { AuthResponse, AuthResult, Menu, SignInForm, SignUpForm } from "./auth.model"
-import { getLoginUser, getRefreshToken, setAuthResult, } from "../login-infos"
+import { getLoginUser, setAuthResult, } from "../login-infos"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { publicRequest, secureRequest } from "../rest-clients"
+import { POST_INIT } from "../utils"
 
 export async function signInAction(form:SignInForm):Promise<AuthResult> {
     
     try {
         const response = await publicRequest("auth/signin", {
-            method: "POST",
+            ...POST_INIT,
             body: JSON.stringify(form),
-            headers: {
-                "Content-Type" : "application/json"
-            }
         })
 
         const authResponse = await response.json() as AuthResponse
@@ -41,11 +39,8 @@ export async function signInAction(form:SignInForm):Promise<AuthResult> {
 export async function signUpAction(form:SignUpForm):Promise<AuthResult> {
     try {
         const response = await publicRequest("auth/signup", {
-            method: "POST",
+            ...POST_INIT,
             body: JSON.stringify(form),
-            headers: {
-                "Content-Type" : "application/json"
-            }
         })
 
         const authResponse = await response.json() as AuthResponse
@@ -66,29 +61,6 @@ export async function signUpAction(form:SignUpForm):Promise<AuthResult> {
         }
 
         throw e
-    }
-}
-
-export async function refreshToken():Promise<string | undefined> {
-    
-    const refreshToken = await getRefreshToken()
-
-    const refreshUrl = `${process.env.BASEURL}/auth/refresh`
-
-    const response = await fetch(refreshUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type" : "application/json"
-        },
-        body: JSON.stringify({
-            token: refreshToken
-        })
-    })
-
-    if(response.ok) {
-        const authResponse = await response.json() as AuthResponse
-        await setAuthResult(authResponse)
-        return authResponse.accessToken
     }
 }
 
