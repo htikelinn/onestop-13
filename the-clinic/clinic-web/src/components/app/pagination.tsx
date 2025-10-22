@@ -3,8 +3,9 @@ import { ArrowLeft, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PagerInfo } from "@/lib";
 
-export default function Pagination({info} : {info: PagerInfo}) {
+export default function Pagination({info} : {info?: PagerInfo}) {
     return (
+      info && 
         <UIPagination>
             <PaginationContent>
                 <PaginationItem>

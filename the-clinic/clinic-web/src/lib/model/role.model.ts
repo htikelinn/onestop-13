@@ -1,13 +1,12 @@
 import z from "zod";
 import { DetailsBase, ListBase } from "..";
-import { LucideIconType } from "./auth.model";
 
 export const RoleSchema = z.object({
     name: z.string().nonempty("Please enter role name."),
     description: z.string().nonempty("Please enter description of role."),
     permissions: z.array(z.object({
         path: z.string().nonempty("Please select feature."),
-        permission: z.string()
+        permission: z.string().optional()
     }))
 })
 
@@ -33,7 +32,5 @@ export type RoleDetails = {
 
 export type Permission = {
     path: string
-    icon: LucideIconType
-    name: string
     permission?: string
 }

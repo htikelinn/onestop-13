@@ -1,6 +1,7 @@
 package com.jdc.clinic.security.output;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.jdc.clinic.domain.auth.entity.Role;
 import com.jdc.clinic.domain.auth.entity.Role_;
@@ -13,8 +14,8 @@ public record RoleItem(
 		String name,
 		String description,
 		boolean deleted,
-		LocalDate createdAt,
-		LocalDate modifiedAt) {
+		LocalDateTime createdAt,
+		LocalDateTime modifiedAt) {
 
 	public static void select(CriteriaQuery<RoleItem> cq, Root<Role> root) {
 		cq.multiselect(

@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 type FormsSelectProps<T extends FieldValues> = {
     control: Control<T>
     path: Path<T>
-    label: string
+    label?: string
     className?: string
     options: {key: string, value: string}[]
 }
@@ -14,11 +14,11 @@ export default function FormsSelect<T extends FieldValues>({control, path, label
     return (
         <FormField control={control} name={path} render={({field}) => 
             <FormItem className={className}>
-                <FormLabel>{label}</FormLabel>
+                {label && <FormLabel>{label}</FormLabel>}
                 <Select defaultValue={field.value} onValueChange={field.onChange}>
                     <FormControl>
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder={`Select ${label}`} />
+                            <SelectValue placeholder={`Select ${label || 'One'}`} />
                         </SelectTrigger>
                     </FormControl>
                     <SelectContent>
