@@ -37,17 +37,15 @@ export default function RoleDetailsView() {
             <section>
                 <h3 className="text-lg">Permissions</h3>
 
-                <div className="grid grid-cols-3 gap-4 mt-4">
+                <div className="grid grid-cols-2 gap-4 mt-4">
                     {permissions.length > 0 && permissions.map((item, index) => 
                         <Card key={index}>
-                            <CardContent>
-                                <CardTitle className="flex items-center gap-2">
+                            <CardContent className="flex justify-between">
+                                <div className="flex items-center space-x-2">
                                     <IconComponent name={item.icon} />
-                                    <div className="space-y-1">
-                                        <div>{item.name}</div>
-                                        <div className="text-foreground/60">{item.permission || "No Permission"}</div>
-                                    </div>
-                                </CardTitle>
+                                    <div>{item.name}</div>
+                                </div>
+                                <div className="text-foreground/60">{item.permission || "No Permission"}</div>
                             </CardContent>
                         </Card>
                     )}

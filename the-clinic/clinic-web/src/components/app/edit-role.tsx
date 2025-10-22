@@ -18,11 +18,11 @@ import FormsTextarea from "../forms/forms-textarea"
 import { Card, CardContent, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react"
+import IconComponent from "./icon-component"
 
 export default function EditRoleView() {
 
     const [features, setFeatures] = useState<AppFeature[]>([])
-    const featureMap:Map<string, AppFeature> = features.reduce((a, b) => a.set(b.path, b), new Map<string, AppFeature>)
 
     const router = useRouter()
 
@@ -93,44 +93,43 @@ export default function EditRoleView() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(save)} className="flex gap-8">
-                
-                <Card className="flex-1">
-                    <CardContent>
-                        <CardTitle>Role Information</CardTitle>
+            <form onSubmit={form.handleSubmit(save)} className="space-y-6">
 
-                        <div className="mt-4 space-y-3">
-                            <FormsInput control={form.control} path="name" label="Role Name" />
-                            <FormsTextarea control={form.control} path="description" label="Description" />
-                        </div>
-                    </CardContent>
-                </Card>
+                <section className="space-y-3">
+                    <h3 className="text-xl">Role Information</h3>
 
-                <Card className="flex-1">
-                    <CardContent>
-                        <CardTitle>Permission Settings</CardTitle>
+                    <div className="flex gap-4">
+                        <FormsInput control={form.control} path="name" label="Role Name" className="w-1/3" />
+                        <FormsInput control={form.control} path="description" label="Description" className="w-2/3" />
+                    </div>
+                </section>   
 
-                        <div className="mt-4 space-y-3">
-                            {fields.map((field, index) => 
-                                <div key={field.id} className="flex justify-between items-center">
-                                    <span>{features[index].name}</span>
+                <section className="space-y-3">
+                    <h3 className="text-xl">Permissions</h3>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {fields.map((field, index) => 
+                            <Card key={field.id}>
+                                <CardContent className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <IconComponent name={features[index].icon} />
+                                        <span>{features[index].name}</span>
+                                    </div>
                                     <FormsSelect control={form.control} path={`permissions.${index}.permission`} options={[
                                         {key : "Read", value : "Read"},
                                         {key : "Write", value : "Write"},
                                         {key : "Modify", value : "Modify"},
                                         {key : "Delete", value : "Delete"}
                                     ]} className="w-[160px]" /> 
-                                </div>
-                            )}
-
-                            <div >
-                                <Button type="submit" className="w-full">
-                                    <Save /> Save Role
-                                </Button>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
+                                </CardContent>
+                            </Card>
+                        )}
+                    </div>
+                </section>             
+                
+                <Button type="submit">
+                    <Save /> Save Role
+                </Button>
             </form>
         </Form>
     )
