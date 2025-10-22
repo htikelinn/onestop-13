@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card"
 import SecurityInfo from "@/components/app/security-info"
 import NoSearchResult from "@/components/app/no-search-result"
 import IconComponent from "@/components/app/icon-component"
+import DetailsHeader from "@/components/app/details-header"
 
 export default function DepartmentDetailsView() {
 
@@ -36,21 +37,12 @@ export default function DepartmentDetailsView() {
     return (
         <section className="space-y-6">
             <section>
-                <h1 className="flex justify-between items-center">
-                    <div className="flex items-center-safe gap-3">
-                        <IconComponent name={(details?.icon || 'ArrowRight') as LucideIconType} className="size-6" />
-                        <div>
-                            <span className="text-xl block">{details?.name}</span>
-                            <span>{details?.phone}</span> - <span>{details?.deleted ? "Deleted" : "Active"}</span>
-                        </div>
-                    </div>
 
-                    <Button asChild>
-                        <Link href={`/staff/department/edit?id=${id}`}>
-                            <lucideIcons.Pencil /> Edit
-                        </Link>
-                    </Button>
-                </h1>
+                <DetailsHeader icon={(details?.icon || 'ArrowRight') as LucideIconType} 
+                    title={details?.name || ""} 
+                    subTitle={details?.phone || ""} 
+                    deleted={details?.deleted || false} 
+                    editPath={`/staff/department/edit?id=${id}`} />
 
                 <p className="text-foreground/70 mt-4">{details?.description}</p>
 
@@ -94,3 +86,4 @@ function DoctorInfo({item} : {item:DoctorListItem}) {
         </Card>
     )
 }
+
