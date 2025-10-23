@@ -1,9 +1,10 @@
-package com.jdc.clinic.domain.auth.entity;
+package com.jdc.clinic.domain.master.entity;
 
 import java.time.LocalDate;
 
 import com.jdc.clinic.domain.BaseEntity;
 import com.jdc.clinic.domain.auth.Address;
+import com.jdc.clinic.domain.auth.entity.Account;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
 import com.jdc.clinic.domain.utils.StringArrayConverter;
 

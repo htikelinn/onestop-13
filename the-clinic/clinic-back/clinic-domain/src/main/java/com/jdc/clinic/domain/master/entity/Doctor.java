@@ -3,7 +3,6 @@ package com.jdc.clinic.domain.master.entity;
 import java.util.List;
 
 import com.jdc.clinic.domain.BaseEntity;
-import com.jdc.clinic.domain.auth.entity.Employee;
 import com.jdc.clinic.domain.master.Schedule;
 import com.jdc.clinic.domain.utils.ScheduleConverter;
 

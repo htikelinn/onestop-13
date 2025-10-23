@@ -6,12 +6,12 @@ import org.springframework.util.StringUtils;
 
 import com.jdc.clinic.domain.auth.entity.Account;
 import com.jdc.clinic.domain.auth.entity.Account_;
-import com.jdc.clinic.domain.auth.entity.Employee;
-import com.jdc.clinic.domain.auth.entity.Employee_;
 import com.jdc.clinic.domain.master.entity.Department;
 import com.jdc.clinic.domain.master.entity.Department_;
 import com.jdc.clinic.domain.master.entity.Doctor;
 import com.jdc.clinic.domain.master.entity.Doctor_;
+import com.jdc.clinic.domain.master.entity.Employee;
+import com.jdc.clinic.domain.master.entity.Employee_;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Join;

@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.jdc.clinic.domain.auth.entity.Account_;
-import com.jdc.clinic.domain.auth.entity.Employee;
-import com.jdc.clinic.domain.auth.entity.Employee_;
 import com.jdc.clinic.domain.auth.entity.Role_;
+import com.jdc.clinic.domain.master.entity.Employee;
+import com.jdc.clinic.domain.master.entity.Employee_;
 
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;

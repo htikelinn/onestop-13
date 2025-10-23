@@ -17,8 +17,8 @@ import com.jdc.clinic.domain.auth.entity.Account.Type;
 import com.jdc.clinic.domain.auth.entity.Feature;
 import com.jdc.clinic.domain.auth.entity.Permission;
 import com.jdc.clinic.domain.auth.repo.AccountRepo;
-import com.jdc.clinic.domain.auth.repo.EmployeeRepo;
 import com.jdc.clinic.domain.auth.repo.FeatureRepo;
+import com.jdc.clinic.domain.master.repo.EmployeeRepo;
 
 @Service
 public class MenuService {

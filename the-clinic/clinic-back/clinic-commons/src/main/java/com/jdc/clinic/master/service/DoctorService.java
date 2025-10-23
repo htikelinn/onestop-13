@@ -10,15 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jdc.clinic.domain.auth.entity.Account;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
-import com.jdc.clinic.domain.auth.entity.Employee;
-import com.jdc.clinic.domain.auth.entity.Employee_;
 import com.jdc.clinic.domain.auth.repo.AccountRepo;
-import com.jdc.clinic.domain.auth.repo.EmployeeRepo;
 import com.jdc.clinic.domain.auth.repo.RoleRepo;
 import com.jdc.clinic.domain.master.entity.Doctor;
 import com.jdc.clinic.domain.master.entity.Doctor_;
+import com.jdc.clinic.domain.master.entity.Employee;
+import com.jdc.clinic.domain.master.entity.Employee_;
 import com.jdc.clinic.domain.master.repo.DepartmentRepo;
 import com.jdc.clinic.domain.master.repo.DoctorRepo;
+import com.jdc.clinic.domain.master.repo.EmployeeRepo;
 import com.jdc.clinic.domain.utils.ClinicBusinessException;
 import com.jdc.clinic.master.input.DoctorForm;
 import com.jdc.clinic.master.input.DoctorSearch;

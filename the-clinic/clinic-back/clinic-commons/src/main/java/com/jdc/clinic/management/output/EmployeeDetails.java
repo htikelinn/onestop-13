@@ -3,7 +3,7 @@ package com.jdc.clinic.management.output;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.jdc.clinic.domain.auth.entity.Employee;
+import com.jdc.clinic.domain.master.entity.Employee;
 
 public record EmployeeDetails(
 		int id,

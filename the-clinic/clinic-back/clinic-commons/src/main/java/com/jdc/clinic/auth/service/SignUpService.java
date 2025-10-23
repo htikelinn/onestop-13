@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jdc.clinic.auth.input.SignUpForm;
 import com.jdc.clinic.domain.auth.entity.Account;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
-import com.jdc.clinic.domain.auth.entity.Patient;
 import com.jdc.clinic.domain.auth.repo.AccountRepo;
-import com.jdc.clinic.domain.auth.repo.PatientRepo;
+import com.jdc.clinic.domain.master.entity.Patient;
+import com.jdc.clinic.domain.master.repo.PatientRepo;
 import com.jdc.clinic.domain.utils.ClinicBusinessException;
 
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.jdc.clinic.domain.trx.entity;
 
 import com.jdc.clinic.domain.BaseEntity;
-import com.jdc.clinic.domain.auth.entity.Patient;
+import com.jdc.clinic.domain.master.entity.Patient;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
