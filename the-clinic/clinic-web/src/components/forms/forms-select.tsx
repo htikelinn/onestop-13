@@ -7,7 +7,11 @@ type FormsSelectProps<T extends FieldValues> = {
     path: Path<T>
     label?: string
     className?: string
-    options: {key: string, value: string}[]
+    options: SelectOption[]
+}
+
+export type SelectOption = {
+    key: string, value: string
 }
 
 export default function FormsSelect<T extends FieldValues>({control, path, label, className, options} : FormsSelectProps<T>) {

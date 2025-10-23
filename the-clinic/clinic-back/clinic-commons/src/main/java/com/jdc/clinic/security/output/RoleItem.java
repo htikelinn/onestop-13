@@ -1,6 +1,5 @@
 package com.jdc.clinic.security.output;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.jdc.clinic.domain.auth.entity.Role;

@@ -8,7 +8,7 @@ export async function search(form: Record<string, string | string [] | undefined
     console.log(form)
     return {
         list: DUMMY_DATA,
-        pageInfo: DUMMY_PAGE
+        ...DUMMY_PAGE
     }
 }
 

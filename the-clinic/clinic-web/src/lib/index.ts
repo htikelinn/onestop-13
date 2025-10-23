@@ -1,3 +1,5 @@
+import { PageInfo } from "next/dist/build/utils"
+
 export type LayoutProps = {
   children: Readonly<React.ReactNode>
 }
@@ -23,8 +25,7 @@ export type PagerInfo = {
 
 export type PageResult<T> = {
     list : T [],
-    pageInfo : PagerInfo
-}
+} & PagerInfo
 
 export type ModificationResult = {
     success: boolean

@@ -1,3 +1,5 @@
+'use client'
+
 import { Form } from "@/components/ui/form"
 import { Table, TableBody, TableHeader, TableRow } from "@/components/ui/table"
 import { AppointmentSearch } from "@/lib/model/appointment.model"

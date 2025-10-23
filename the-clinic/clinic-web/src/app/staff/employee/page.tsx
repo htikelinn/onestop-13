@@ -15,10 +15,13 @@ import { useForm } from "react-hook-form"
 import * as roleClient from '@/lib/model/role.service'
 import * as employeeClient from '@/lib/model/employee.service'
 import ActiveStatus from "@/components/app/active-status"
+import { PagerInfo } from "@/lib"
+import Pagination from "@/components/app/pagination"
 
 export default function EmployeeList() {
 
     const [list, setList] = useState<EmployeeListItem[]>([])
+    const [pager, setPager] = useState<PagerInfo>()
 
     async function search(form: EmployeeSearch) {
         if(form.roleId == "-1") {
@@ -29,8 +32,9 @@ export default function EmployeeList() {
             delete form.deleted
         }
 
-        const result = await employeeClient.search(form)
-        setList(result)
+        const {list, ...pager} = await employeeClient.search(form)
+        setList(list)
+        setPager(pager)
     }
 
     useEffect(() => {
@@ -41,6 +45,7 @@ export default function EmployeeList() {
         <div className="space-y-4">
             <SearchForm onSearch={search} />
             <SearchResult list={list} />
+            {pager && pager.totalPage > 1 && <Pagination info={pager} />}
         </div>
     )
 }
@@ -54,6 +59,8 @@ function SearchForm({onSearch} : {onSearch : (form:EmployeeSearch) => void}) {
         async function loadRoles() {
             const result = await roleClient.search({deleted : "false"})
             setRoles(result)
+
+            console.log(result)
         }
         loadRoles()
     }, [setRoles])
