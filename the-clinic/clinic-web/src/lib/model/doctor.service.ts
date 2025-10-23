@@ -12,7 +12,7 @@ export async function search(form: DoctorSearch) : Promise<DoctorListItem[]> {
     return await response.json()
 }
 
-export async function findById(id: number):Promise<DoctorDetails> {
+export async function findById(id: number | string):Promise<DoctorDetails> {
     const response = await secureRequest(`${ENDPOINT}/${id}`)
     return await response.json()
 }
@@ -21,6 +21,6 @@ export async function create(form: DoctorForm): Promise<ModificationResult> {
     return await safeCreate(ENDPOINT, JSON.stringify(form))
 }
 
-export async function update(id: number, form: DoctorForm) : Promise<ModificationResult> {
+export async function update(id: number | string, form: DoctorForm) : Promise<ModificationResult> {
     return await safeUpdate(`${ENDPOINT}/${id}`, JSON.stringify(form))
 }

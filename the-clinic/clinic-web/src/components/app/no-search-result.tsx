@@ -1,12 +1,8 @@
-import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
-
 export default function NoSearchResult({data} : {data: string}) {
     return (
-        <Card>
-            <CardContent>
-                <CardTitle>No Search Result</CardTitle>
-                <CardDescription>{`There is no search result for ${data}.`}</CardDescription>
-            </CardContent>
-        </Card>
+        <div className="border p-4 rounded-lg">
+            <h1>No Data</h1>
+            <p className="text-muted-foreground">{`There is no ${data}.`}</p>
+        </div>
     )
 }

@@ -4,15 +4,11 @@ import { DepartmentDetails } from "@/lib/model/department.model"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import * as departmentClient from '@/lib/model/department.service'
-import * as lucideIcons from 'lucide-react'
 import { LucideIconType } from "@/lib/model/auth.model"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { DoctorListItem } from "@/lib/model/doctor.model"
 import { Card } from "@/components/ui/card"
 import SecurityInfo from "@/components/app/security-info"
 import NoSearchResult from "@/components/app/no-search-result"
-import IconComponent from "@/components/app/icon-component"
 import DetailsHeader from "@/components/app/details-header"
 
 export default function DepartmentDetailsView() {
@@ -48,14 +44,9 @@ export default function DepartmentDetailsView() {
 
             </section>
 
-            <section>
-                <h3 className="text-lg flex justify-between items-center mb-4">
+            <section className="space-y-4">
+                <h3 className="text-lg">
                     Doctors
-                    <Button asChild>
-                        <Link href={``}>
-                            <lucideIcons.Plus /> Add Doctor
-                        </Link>
-                    </Button>
                 </h3>
 
                 {doctors.length == 0 && 

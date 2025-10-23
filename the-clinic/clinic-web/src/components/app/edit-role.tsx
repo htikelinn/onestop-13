@@ -14,8 +14,6 @@ import { Form } from "../ui/form"
 import { toast } from "sonner"
 import FormsInput from "../forms/forms-input"
 import FormsSelect from "../forms/forms-select"
-import FormsTextarea from "../forms/forms-textarea"
-import { Card, CardContent, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react"
 import IconComponent from "./icon-component"
@@ -107,22 +105,20 @@ export default function EditRoleView() {
                 <section className="space-y-3">
                     <h3 className="text-xl">Permissions</h3>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-y-4 gap-x-16">
                         {fields.map((field, index) => 
-                            <Card key={field.id}>
-                                <CardContent className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <IconComponent name={features[index].icon} />
-                                        <span>{features[index].name}</span>
-                                    </div>
-                                    <FormsSelect control={form.control} path={`permissions.${index}.permission`} options={[
-                                        {key : "Read", value : "Read"},
-                                        {key : "Write", value : "Write"},
-                                        {key : "Modify", value : "Modify"},
-                                        {key : "Delete", value : "Delete"}
-                                    ]} className="w-[160px]" /> 
-                                </CardContent>
-                            </Card>
+                            <div key={field.id} className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <IconComponent name={features[index].icon} />
+                                    <span>{features[index].name}</span>
+                                </div>
+                                <FormsSelect control={form.control} path={`permissions.${index}.permission`} options={[
+                                    {key : "Read", value : "Read"},
+                                    {key : "Write", value : "Write"},
+                                    {key : "Modify", value : "Modify"},
+                                    {key : "Delete", value : "Delete"}
+                                ]} className="w-[160px]" /> 
+                            </div>
                         )}
                     </div>
                 </section>             

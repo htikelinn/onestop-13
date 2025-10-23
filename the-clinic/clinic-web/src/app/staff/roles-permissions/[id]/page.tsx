@@ -5,7 +5,6 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import * as roleClient from '@/lib/model/role.service'
 import DetailsHeader from "@/components/app/details-header"
-import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import IconComponent from "@/components/app/icon-component"
 import SecurityInfo from "@/components/app/security-info"
 
@@ -34,20 +33,17 @@ export default function RoleDetailsView() {
                 deleted={details?.deleted || false}
                 editPath={`/staff/roles-permissions/edit?id=${id}`} />
 
-            <section>
+            <section className="space-y-4">
                 <h3 className="text-lg">Permissions</h3>
-
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="grid grid-cols-2 gap-y-4 gap-x-16 border rounded-lg p-4">
                     {permissions.length > 0 && permissions.map((item, index) => 
-                        <Card key={index}>
-                            <CardContent className="flex justify-between">
-                                <div className="flex items-center space-x-2">
-                                    <IconComponent name={item.icon} />
-                                    <div>{item.name}</div>
-                                </div>
-                                <div className="text-foreground/60">{item.permission || "No Permission"}</div>
-                            </CardContent>
-                        </Card>
+                        <div key={index} className="flex justify-between">
+                            <div className="flex items-center space-x-2">
+                                <IconComponent name={item.icon} />
+                                <div>{item.name}</div>
+                            </div>
+                            <div className="text-foreground/60">{item.permission || "No Permission"}</div>
+                        </div>
                     )}
                 </div>
             </section>
