@@ -1,6 +1,7 @@
 import z from "zod"
 import { DoctorListItem } from "./doctor.model"
 import { DetailsBase, ListBase } from ".."
+import { LucideIconType } from "./auth.model"
 
 export const DepartmentSchema = z.object({
     name: z.string().nonempty("Please enter department name."),
@@ -19,7 +20,8 @@ export type DepartmentSearch = {
 export type DepartmentListItem = {
     id: number
     name: string
-    icon : string
+    description: string
+    icon : LucideIconType
     phone: string
     doctors: number
 } & ListBase

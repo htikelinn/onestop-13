@@ -25,7 +25,7 @@ public class ClinicSecurityConfig {
 		http.cors(Customizer.withDefaults());
 		
 		http.authorizeHttpRequests(request -> {
-			request.requestMatchers("/auth/**").permitAll();
+			request.requestMatchers("/auth/**", "/anonymous/**").permitAll();
 			request.requestMatchers("/patient/**").hasAuthority("Patient");
 			request.requestMatchers("/staff/**").hasAnyAuthority("Employee", "Admin");
 			request.anyRequest().authenticated();

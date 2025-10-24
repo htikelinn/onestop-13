@@ -12,6 +12,7 @@ import com.jdc.clinic.domain.auth.entity.Account;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
 import com.jdc.clinic.domain.auth.repo.AccountRepo;
 import com.jdc.clinic.domain.auth.repo.RoleRepo;
+import com.jdc.clinic.domain.master.Schedule;
 import com.jdc.clinic.domain.master.entity.Doctor;
 import com.jdc.clinic.domain.master.entity.Doctor_;
 import com.jdc.clinic.domain.master.entity.Employee;
@@ -60,6 +61,12 @@ public class DoctorService {
 		return safeCall(doctorRepo.findById(id).map(DoctorDetails::from)
 				, "doctor", "id", id);
 	}
+	
+	public List<Schedule> getSchedules(int id) {
+		return safeCall(doctorRepo.findById(id).map(a -> a.getSchedules())
+				, "doctor", "id", id);
+	}
+	
 
 	@Transactional
 	public ModificationResult<Integer> create(DoctorForm form) {
@@ -92,6 +99,7 @@ public class DoctorService {
 		doctor.setDepartment(department);
 		doctor.setTitle(form.title());
 		doctor.setDegree(form.degree());
+		doctor.setSchedules(form.schedules());
 		
 		doctor = doctorRepo.save(doctor);
 		
@@ -104,6 +112,7 @@ public class DoctorService {
 		var doctor = safeCall(doctorRepo.findById(id), "doctor", "id", id);
 		doctor.setTitle(form.title());
 		doctor.setDegree(form.degree());
+		doctor.setSchedules(form.schedules());
 		
 		if(doctor.getDepartment().getId() != form.departmentId()) {
 			var department = safeCall(departmentRepo.findById(form.departmentId()), 
@@ -132,5 +141,6 @@ public class DoctorService {
 		
 		return new ModificationResult<>(doctor.getId());
 	}
+
 
 }

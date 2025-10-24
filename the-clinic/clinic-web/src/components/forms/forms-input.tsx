@@ -6,7 +6,7 @@ import { HTMLInputTypeAttribute } from "react"
 type FormsInputProps<T extends FieldValues> = {
     control: Control<T>
     path: Path<T>
-    label: string
+    label?: string
     type?: HTMLInputTypeAttribute
     className?: string
     placeholder?: string
@@ -23,7 +23,7 @@ export default function FormsInput<T extends FieldValues>({
     return (
         <FormField control={control} name={path} render={({field}) => 
             <FormItem className={className}>
-                <FormLabel>{label}</FormLabel>
+                {label && <FormLabel>{label}</FormLabel>}
                 <FormControl>
                     <Input type={type || 'text'} {...field} placeholder={placeholder || `Enter ${label}`} />
                 </FormControl>

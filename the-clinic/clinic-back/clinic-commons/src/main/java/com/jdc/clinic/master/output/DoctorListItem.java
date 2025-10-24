@@ -18,6 +18,7 @@ import jakarta.persistence.criteria.Root;
 public record DoctorListItem(
 	int id,
 	String name,
+	String degree,
 	String department,
 	String phone,
 	String email,
@@ -31,6 +32,7 @@ public record DoctorListItem(
 		return new DoctorListItem(
 				entity.getId(), 
 				entity.getEmployee().getAccount().getName(), 
+				entity.getDegree(), 
 				entity.getDepartment().getName(), 
 				entity.getEmployee().getPhone(), 
 				entity.getEmployee().getAccount().getEmail(), 
@@ -49,6 +51,7 @@ public record DoctorListItem(
 		cq.multiselect(
 			root.get(Doctor_.id),
 			account.get(Account_.name),
+			root.get(Doctor_.degree),
 			department.get(Department_.name),
 			employee.get(Employee_.phone),
 			account.get(Account_.email),

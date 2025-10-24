@@ -71,10 +71,10 @@ export default function DepartmentDetailsView() {
 
 function DoctorInfo({item} : {item:DoctorListItem}) {
     return (
-        <Card className="p-6 hover:shadow-md cursor-pointer flex flex-col items-center justify-center gap-2">
-            <span className="text-xl">{item.title}. {item.name}</span>
+        <div className="p-6 hover:shadow-md cursor-pointer flex flex-col items-center justify-center gap-2 border rounded-lg">
+            <span className="text-xl">{item.title} {item.name}</span>
             <span className="text-center">{item.phone}</span>
-        </Card>
+        </div>
     )
 }
 

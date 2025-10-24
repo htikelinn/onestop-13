@@ -14,6 +14,29 @@ import jakarta.persistence.criteria.Root;
 public record DepartmentSearch(
 		Boolean deleted,
 		String keyword) {
+	
+	public static class Builder {
+		private Boolean deleted;
+		private String keyword;
+		
+		public DepartmentSearch build() {
+			return new DepartmentSearch(deleted, keyword);
+		}
+		
+		public Builder deleted(Boolean deleted) {
+			this.deleted = deleted;
+			return this;
+		}
+		
+		public Builder keyword(String keyword) {
+			this.keyword = keyword;
+			return this;
+		}
+	}
+	
+	public static Builder builder() { 
+		return new Builder();
+	}
 
 	public Predicate[] where(CriteriaBuilder cb, Root<Department> root) {
 		var params = new ArrayList<>();

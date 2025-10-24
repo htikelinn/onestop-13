@@ -22,6 +22,35 @@ public record DoctorSearch(
 	Integer departmentId, 
 	Boolean deleted,
 	String keyword) {
+	
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	public static class Builder {
+		private Integer departmentId;
+		private Boolean deleted;
+		private String keyword;
+		
+		public DoctorSearch build() {
+			return new DoctorSearch(departmentId, deleted, keyword);
+		}
+		
+		public Builder departmentId(Integer departmentId) {
+			this.departmentId = departmentId;
+			return this;
+		}
+		
+		public Builder deleted(Boolean deleted) {
+			this.deleted = deleted;
+			return this;
+		}
+		
+		public Builder keyword(String keyword) {
+			this.keyword = keyword;
+			return this;
+		}
+	}
 
 	public Predicate[] where(CriteriaBuilder cb, 
 			Root<Doctor> root, 

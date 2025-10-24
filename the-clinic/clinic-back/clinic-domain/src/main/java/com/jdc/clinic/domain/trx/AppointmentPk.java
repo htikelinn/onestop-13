@@ -2,6 +2,7 @@ package com.jdc.clinic.domain.trx;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class AppointmentPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyyMMdd");
 	
 	@Column(nullable = false, name = "doctor_id")
 	private int doctorId;
@@ -34,5 +36,17 @@ public class AppointmentPk implements Serializable {
 				id.getScheduleDate(), 
 				id.getScheduleTime(), 
 				tokenNumber);
+	}
+
+	public String getCode() {
+		return "%s-%s-%03d-%04d".formatted(scheduleDate.format(DF), scheduleTime, doctorId, tokenNumber);
+	}
+	
+	public static AppointmentPk parse(String code) {
+		var array = code.split("-");
+		return new AppointmentPk(Integer.parseInt(array[2]), 
+				LocalDate.parse(array[0]), 
+				array[1], 
+				Integer.parseInt(array[3]));
 	}
 }

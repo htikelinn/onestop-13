@@ -5,9 +5,9 @@ export const DoctorSchema = z.object({
     name: z.string().nonempty("Please enter doctor name."),
     email: z.string().nonempty("Please enter email address."),
     phone: z.string().nonempty("Please enter phone number."),
-    roleId: z.number().nonoptional("Please select role"),
-    assignAt: z.date().nonoptional("Please select assign date."),
-    departmentId: z.number().nonoptional("Please select department."),
+    roleId: z.string().nonoptional("Please select role"),
+    assignAt: z.string().nonempty("Please select assign date."),
+    departmentId: z.string().nonempty("Please select department."),
     title: z.string().nonempty("Please enter title."),
     degree: z.string().nonempty("Please enter degree."),
     schedules: z.array(z.object({
@@ -28,6 +28,7 @@ export type DoctorSearch = {
 export type DoctorListItem = {
     id: number
     name: string
+    degree: string
     department: string
     phone: string
     email: string
@@ -39,13 +40,15 @@ export type DoctorDetails = {
     name: string
     phone: string
     email: string
+    assignAt: string
+    retiredAt?: string
     title: string
     degree: string
     departmentId: number
     department: string
     roleId: number
     roleName: string
-    scuedules: Schedule[]
+    schedules: Schedule[]
 } & DetailsBase
 
 export type Schedule = {

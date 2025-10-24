@@ -44,7 +44,7 @@ public class ScheduleConverter implements AttributeConverter<List<Schedule>, Str
 			}
 		}
 		
-		return null;
+		return List.of();
 	}
 
 }

@@ -14,6 +14,7 @@ import jakarta.persistence.criteria.Root;
 public record DepartmentListItem(		
 		int id,
 		String name,
+		String description,
 		String icon,
 		String phone,
 		long doctors,
@@ -29,6 +30,7 @@ public record DepartmentListItem(
 		cq.multiselect(
 			root.get(Department_.id),
 			root.get(Department_.name),
+			root.get(Department_.description),
 			root.get(Department_.icon),
 			root.get(Department_.phone),
 			cb.count(doctor.get(Doctor_.id)),

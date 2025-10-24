@@ -1,5 +1,6 @@
 package com.jdc.clinic.master.output;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public record DoctorDetails(
 		String name,
 		String phone,
 		String email,
+		LocalDate assignAt,
+		LocalDate retiredAt,
 		String title,
 		String degree,
 		int departmentId,
@@ -30,6 +33,8 @@ public record DoctorDetails(
 			entity.getEmployee().getAccount().getName(), 
 			entity.getEmployee().getPhone(), 
 			entity.getEmployee().getAccount().getEmail(), 
+			entity.getEmployee().getAssignAt(),
+			entity.getEmployee().getRetiredAt(),
 			entity.getTitle(), entity.getDegree(), 
 			entity.getDepartment().getId(), 
 			entity.getDepartment().getName(), 
