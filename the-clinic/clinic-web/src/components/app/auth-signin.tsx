@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { signInAction } from "@/lib/model/auth.service"
 import { useRouter } from "next/navigation"
-import { toast } from "sonner"
 import { SignInForm, SignInSchema } from "@/lib/model/auth.model"
+import { safeCall } from "@/lib/action-utils"
 
 export default function ClientSignIn() {
 
@@ -25,15 +25,10 @@ export default function ClientSignIn() {
     })
 
     async function onSignIn(form:SignInForm) {
-        const result = await signInAction(form)
-
-        if(result.success) {
+        safeCall(async () => {
+            const result = await signInAction(form)
             router.replace(result.message as string)
-        } else {
-            toast("Authentication Error", {
-                description: result.message
-            })
-        }
+        })
     }
 
     return (

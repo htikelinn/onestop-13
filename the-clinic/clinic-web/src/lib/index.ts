@@ -27,9 +27,8 @@ export type PageResult<T> = {
     list : T [],
 } & PagerInfo
 
-export type ModificationResult = {
-    success: boolean
-    message: string | string []
+export type ModificationResult<T> = {
+    id: T
 }
 
 export const DUMMY_PAGE:PagerInfo = {

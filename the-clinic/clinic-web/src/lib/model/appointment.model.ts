@@ -51,11 +51,11 @@ export const AppointmentSchema = z.object({
 export type AppointmentForm = z.infer<typeof AppointmentSchema>
 
 export const PublicAppointmentSchema = z.object({
-    scheduleDate : z.date().nonoptional("Please select schedule date."),
+    scheduleDate : z.string().nonoptional("Please select schedule date."),
     scheduleTime : z.string().nonoptional("Please select schedule time."),
     doctorId: z.string().nonoptional("Please select doctor."),
     patientName: z.string().nonempty("Please patient name."),
-    dateOfBirth: z.date().nonoptional("Please enter date of birth."),
+    dateOfBirth: z.string().nonoptional("Please enter date of birth."),
     phone: z.string().nonempty("please enter phone number."),
     chiefComplain: z.string(),
 })

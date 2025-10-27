@@ -1,8 +1,8 @@
 'use server'
 
 import { ModificationResult } from ".."
-import { secureRequest, safeCreate, safeUpdate } from "../rest-clients"
-import { queryString } from "../utils"
+import { secureRequest } from "../rest-clients"
+import { POST_INIT, PUT_INIT, queryString } from "../utils"
 import { DoctorDetails, DoctorForm, DoctorListItem, DoctorSearch } from "./doctor.model"
 
 const ENDPOINT = "staff/doctor"
@@ -17,10 +17,20 @@ export async function findById(id: number | string):Promise<DoctorDetails> {
     return await response.json()
 }
 
-export async function create(form: DoctorForm): Promise<ModificationResult> {
-    return await safeCreate(ENDPOINT, JSON.stringify(form))
+export async function create(form: DoctorForm): Promise<ModificationResult<number>> {
+    const response = await secureRequest(ENDPOINT, {
+        ...POST_INIT,
+        body: JSON.stringify(form)
+    })
+
+    return await response.json()
 }
 
-export async function update(id: number | string, form: DoctorForm) : Promise<ModificationResult> {
-    return await safeUpdate(`${ENDPOINT}/${id}`, JSON.stringify(form))
+export async function update(id: number | string, form: DoctorForm) : Promise<ModificationResult<number>> {
+    const response = await secureRequest(`${ENDPOINT}/${id}`, {
+        ...PUT_INIT,
+        body: JSON.stringify(form)
+    })
+
+    return await response.json()
 }

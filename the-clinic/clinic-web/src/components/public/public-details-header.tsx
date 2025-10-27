@@ -12,7 +12,7 @@ export default function PublicDetailsHeader({icon, title, subTitle} : PublicDeta
         <header className="space-y-4 pt-8">
             <div className="flex gap-2 items-center justify-center">
                 <IconComponent className="size-6" name={icon} />
-                <h1 className="text-2xl">{title} Department</h1>
+                <h1 className="text-2xl">{title}</h1>
             </div>
             <p className="text-muted-foreground px-48 text-center">{subTitle}</p>
         </header>

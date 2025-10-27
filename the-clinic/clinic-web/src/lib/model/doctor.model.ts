@@ -56,3 +56,18 @@ export type Schedule = {
     start: string
     end: string
 }
+
+export type PublicDoctorDetails = {
+    id: number
+    name: string
+    title: string
+    degree: string
+    department: string
+    schedules: PublicSchedule[]
+}
+
+export type PublicSchedule = {
+    date: string
+    scheduleTime : string
+    tokens : number
+}

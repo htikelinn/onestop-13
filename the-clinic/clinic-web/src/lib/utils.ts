@@ -18,6 +18,14 @@ export function formatDate(date?: Date): string | undefined {
     }
 }
 
+export function dateWithDay(dateStr?: string): string | undefined {
+    var date = parseDate(dateStr)
+
+    if(date) {
+        return format(date, "yyyy-MM-dd (EEE)")
+    }
+}
+
 export function queryString(form: {[key: string] : string | string[] | undefined}) {
     const params = new URLSearchParams
 
@@ -37,13 +45,6 @@ export function queryString(form: {[key: string] : string | string[] | undefined
 
     return params.toString()
 } 
-
-export class RestClientError {
-    constructor(
-        readonly type:'Business' | 'Server',
-        readonly messages:string[]
-    ) {}
-}
 
 export const POST_INIT:RequestInit = {
     method: "POST",

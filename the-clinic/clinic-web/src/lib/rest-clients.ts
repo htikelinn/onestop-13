@@ -1,18 +1,20 @@
-import { getAccessToken, getRefreshToken, setAuthResult } from "./login-infos"
+import "server-only"
+
+import { getAccessToken, getRefreshToken } from "./login-infos"
 import { redirect } from "next/navigation"
-import { POST_INIT, PUT_INIT, RestClientError } from "./utils"
+import { POST_INIT } from "./utils"
 import { AuthResponse } from "./model/auth.model"
-import { ModificationResult } from "."
 
 export async function publicRequest(path: string, options : RequestInit = {}) {
     const response = await fetch(`${process.env.APIURL}/${path}`, options)
 
-    if(response.status === 400) {
-        throw new RestClientError('Business', await response.json() as string[])
-    }
+    if(!response.ok) {
+        const error = {
+            type : response.status === 400 ? "Message" : (response.status === 401 ? "Authentication Error" : "Fatal Error"),
+            message: await response.json()
+        }
 
-    if(response.status === 500) {
-        throw new RestClientError('Server', await response.json() as string[])
+        throw JSON.stringify(error)
     }
 
     return response
@@ -63,61 +65,15 @@ export async function secureRequest(path: string, options : RequestInit = {}) {
         redirect("/signin")
     }
 
-    if(response?.status === 400) {
-        throw new RestClientError('Business', await response.json() as string[])
-    }
+    if(response?.status === 400 || response?.status === 500) {
+        const error = {
+            type : response?.status === 400 ? "Client Error" : "Server Error",
+            message: await response.json()
+        }
 
-    if(response?.status === 500) {
-        throw new RestClientError('Server', await response.json() as string[])
+        throw JSON.stringify(error)
     }
 
     return response
 }
 
-export async function safeCreate(path:string, json: string) : Promise<ModificationResult> {
-    try {
-        const response = await secureRequest(path, {
-            ...POST_INIT,
-            body: json
-        })
-
-        const { id } = await response.json()
-
-        return {
-            success: true,
-            message: id
-        }
-    } catch (e) {
-        if(e instanceof RestClientError) {
-            return {
-                success: false,
-                message: e.messages
-            }
-        }
-        throw e
-    }
-}
-
-export async function safeUpdate(path:string, json: string) : Promise<ModificationResult> {
-    try {
-        const response = await secureRequest(path, {
-            ...PUT_INIT,
-            body: json
-        })
-
-        const { id } = await response.json()
-
-        return {
-            success: true,
-            message: id
-        }
-    } catch (e) {
-        if(e instanceof RestClientError) {
-            return {
-                success: false,
-                message: e.messages
-            }
-        }
-        throw e
-    }
-}

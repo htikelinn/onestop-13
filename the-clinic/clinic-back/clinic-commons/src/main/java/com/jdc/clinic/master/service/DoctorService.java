@@ -8,11 +8,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jdc.clinic.anonymous.output.PublicDoctorDetails;
+import com.jdc.clinic.anonymous.output.PublicSchedule;
+import com.jdc.clinic.anonymous.service.PublicScheduleService;
 import com.jdc.clinic.domain.auth.entity.Account;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
 import com.jdc.clinic.domain.auth.repo.AccountRepo;
 import com.jdc.clinic.domain.auth.repo.RoleRepo;
-import com.jdc.clinic.domain.master.Schedule;
 import com.jdc.clinic.domain.master.entity.Doctor;
 import com.jdc.clinic.domain.master.entity.Doctor_;
 import com.jdc.clinic.domain.master.entity.Employee;
@@ -40,6 +42,8 @@ public class DoctorService {
 	private final DepartmentRepo departmentRepo;
 	private final PasswordEncoder passwordEncoder;
 	private final RoleRepo roleRepo;
+	
+	private final PublicScheduleService scheduleService;
 
 	public List<DoctorListItem> search(DoctorSearch search) {
 		return doctorRepo.search(cb -> {
@@ -62,9 +66,17 @@ public class DoctorService {
 				, "doctor", "id", id);
 	}
 	
-	public List<Schedule> getSchedules(int id) {
-		return safeCall(doctorRepo.findById(id).map(a -> a.getSchedules())
-				, "doctor", "id", id);
+	public PublicDoctorDetails findByIdForPublic(int id) {
+		var entity = safeCall(doctorRepo.findById(id), "doctor", "id", id);
+		return PublicDoctorDetails.builder(entity)
+				.schedules(getSchedules(id))
+				.build();
+	}
+	
+	
+	public List<PublicSchedule> getSchedules(int id) {
+		var schedules = safeCall(doctorRepo.findById(id).map(a -> a.getSchedules()), "doctor", "id", id);
+		return scheduleService.getSchedules(id, schedules);
 	}
 	
 

@@ -16,6 +16,7 @@ import { Form } from "../ui/form"
 import FormsInput from "../forms/forms-input"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react"
+import { safeCall } from "@/lib/action-utils"
 
 export default function EmployeeEditView() {
 
@@ -67,14 +68,10 @@ export default function EmployeeEditView() {
     }, [id, form])
 
     async function save(form: EmployeeForm) {
-        const result = await (id ? employeeClient.update(id, form) : employeeClient.create(form))
-        if(result.success) {
-            router.push(`/staff/employee/${result.message}`)
-        } else {
-            toast("Error", {
-                description: result.message
-            })
-        }
+        safeCall(async () => {
+            const result = await (id ? employeeClient.update(id, form) : employeeClient.create(form))
+            router.push(`/staff/employee/${result.id}`)
+        })
     }
 
     return (

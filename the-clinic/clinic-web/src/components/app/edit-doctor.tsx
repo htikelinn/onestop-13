@@ -18,6 +18,7 @@ import FormsSelect from "../forms/forms-select"
 import FormsInput from "../forms/forms-input"
 import { Plus, Save, Trash } from "lucide-react"
 import { Button } from "../ui/button"
+import { safeCall } from "@/lib/action-utils"
 
 export default function EditDoctorView() {
 
@@ -73,7 +74,7 @@ export default function EditDoctorView() {
                     assignAt: details.assignAt,
                     email: details.email,
                     phone: details.phone,
-                    schedules: details.scuedules
+                    schedules: details.schedules
                 })
             }
         }
@@ -82,14 +83,10 @@ export default function EditDoctorView() {
     }, [id, form])
 
     async function save(form: DoctorForm) {
-        const result = await (id ? doctorClient.update(id, form) : doctorClient.create(form))
-        if(result.success) {
-            router.push(`/staff/doctor/${result.message}`)
-        } else {
-            toast("Error", {
-                description: result.message
-            })
-        }
+        safeCall(async () => {
+            const result = await (id ? doctorClient.update(id, form) : doctorClient.create(form))
+            router.push(`/staff/doctor/${result.id}`)
+        })
     }
 
     function addSchedule() {

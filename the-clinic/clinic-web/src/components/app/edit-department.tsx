@@ -13,6 +13,7 @@ import FormsSelect from "../forms/forms-select"
 import FormsTextarea from "../forms/forms-textarea"
 import { Button } from "../ui/button"
 import { RefreshCw, Save } from "lucide-react"
+import { safeCall } from "@/lib/action-utils"
 
 export default function DepartmentEditView({id} : {id?: string}) {
 
@@ -45,15 +46,10 @@ export default function DepartmentEditView({id} : {id?: string}) {
     }, [id, form])
 
     async function onSave(form:DepartmentForm) {
-        const result = await (id ? departmentClient.update(id, form) : departmentClient.create(form))
-
-        if(result.success) {
-            router.push(`/staff/department/${result.message}`)
-        } else {
-            toast('Error', {
-                description: result.message
-            })
-        }
+        safeCall(async () => {
+            const result = await (id ? departmentClient.update(id, form) : departmentClient.create(form))
+            router.push(`/staff/department/${result.id}`)
+        })
     }
 
     return (

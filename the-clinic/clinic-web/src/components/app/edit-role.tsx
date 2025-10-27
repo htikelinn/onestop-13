@@ -17,6 +17,7 @@ import FormsSelect from "../forms/forms-select"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react"
 import IconComponent from "./icon-component"
+import { safeCall } from "@/lib/action-utils"
 
 export default function EditRoleView() {
 
@@ -79,14 +80,10 @@ export default function EditRoleView() {
     }, [features, id, form])
 
     async function save(form: RoleForm) {
-        const result = await (id ? roleClient.update(id, form) : roleClient.create(form))
-        if(result.success) {
-            router.push(`/staff/roles-permissions/${result.message}`)
-        } else {
-            toast('Error', {
-                description: result.message
-            })
-        }
+        safeCall(async () => {
+            const result = await (id ? roleClient.update(id, form) : roleClient.create(form))
+            router.push(`/staff/roles-permissions/${result.id}`)
+        })
     }
 
     return (

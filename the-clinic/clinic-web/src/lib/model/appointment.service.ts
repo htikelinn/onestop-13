@@ -1,64 +1,45 @@
 'use server'
 
 import { format } from "date-fns";
-import { AppointmentCancelForm, AppointmentDetails, AppointmentForm, AppointmentListItem, PublicAppointmentForm } from "./appointment.model";
-import { DUMMY_PAGE, ModificationResult, PageResult } from "..";
+import { AppointmentCancelForm, AppointmentDetails, AppointmentForm, AppointmentListItem, AppointmentSearch } from "./appointment.model";
+import { ModificationResult, PageResult } from "..";
+import { secureRequest } from "../rest-clients";
+import { POST_INIT, PUT_INIT, queryString } from "../utils";
 
-export async function search(form: Record<string, string | string [] | undefined>):Promise<PageResult<AppointmentListItem>> {
-    console.log(form)
-    return {
-        list: DUMMY_DATA,
-        ...DUMMY_PAGE
-    }
+const ENDPOINT = "staff/appointment"
+
+export async function search(form: AppointmentSearch):Promise<PageResult<AppointmentListItem>> {
+    const response = await secureRequest(`${ENDPOINT}?${queryString(form)}`)
+    return await response.json()
 }
 
-export async function findById(id: string):Promise<AppointmentDetails | undefined> {
-    
-    const item = DUMMY_DATA.filter(a => a.id == id).pop()
-
-    if(item) {
-        return {
-            ...item, 
-            status: 'Canceld',
-            chiefComplain : "Head Ache",
-            remark: "Doctor has urgent emergency.",
-            updatedAt: format(new Date, "yyyy-MM-dd HH:mm"),
-            updatedBy: "Office",
-            createdBy: "Customer"
-        }
-    }
+export async function findById(id: string):Promise<AppointmentDetails> {
+    const response = await secureRequest(`${ENDPOINT}/${id}}`)
+    return await response.json()
 }
 
-export async function createPublic(form: PublicAppointmentForm):Promise<ModificationResult> {
-    console.log(form)
-    return {
-        success: true,
-        message: "AP0001"
-    }
-}
-
-export async function create(form: AppointmentForm) {
-    console.log(form)
-    return {
-        success: true,
-        message: "AP0001"
-    }
+export async function create(form: AppointmentForm):Promise<ModificationResult<string>> {
+    const response = await secureRequest(ENDPOINT, {
+        ...POST_INIT, 
+        body: JSON.stringify(form)
+    })
+    return await response.json()
 }
 
 export async function update(id: string, form: AppointmentForm) {
-    console.log(form)
-    return {
-        success: true,
-        message: id
-    }
+    const response = await secureRequest(`${ENDPOINT}/${id}`, {
+        ...PUT_INIT, 
+        body: JSON.stringify(form)
+    })
+    return await response.json()
 }
 
 export async function cancel(id: string, form: AppointmentCancelForm) {    
-    console.log(form)
-    return {
-        success: true,
-        message: "AP0001"
-    }
+    const response = await secureRequest(`${ENDPOINT}/${id}/cancel`, {
+        ...PUT_INIT, 
+        body: JSON.stringify(form)
+    })
+    return await response.json()
 }
 
 const DUMMY_DATA:AppointmentListItem[] = [

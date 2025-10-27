@@ -9,58 +9,34 @@ import { POST_INIT } from "../utils"
 
 export async function signInAction(form:SignInForm):Promise<AuthResult> {
     
-    try {
-        const response = await publicRequest("auth/signin", {
-            ...POST_INIT,
-            body: JSON.stringify(form),
-        })
+    const response = await publicRequest("auth/signin", {
+        ...POST_INIT,
+        body: JSON.stringify(form),
+    })
 
-        const authResponse = await response.json() as AuthResponse
-        
-        await setAuthResult(authResponse)
+    const authResponse = await response.json() as AuthResponse
+    
+    await setAuthResult(authResponse)
 
-        return {
-            success: true,
-            message: authResponse.role == 'Patient' ? "/patient" : '/staff'
-        }
-
-    } catch (e : any) {
-        if(e.status && e.messages) {
-            return {
-                success: false,
-                message: e.messages
-            }
-        }
-
-        throw e
+    return {
+        success: true,
+        message: authResponse.role == 'Patient' ? "/patient" : '/staff'
     }
 }
 
 export async function signUpAction(form:SignUpForm):Promise<AuthResult> {
-    try {
-        const response = await publicRequest("auth/signup", {
-            ...POST_INIT,
-            body: JSON.stringify(form),
-        })
+    const response = await publicRequest("auth/signup", {
+        ...POST_INIT,
+        body: JSON.stringify(form),
+    })
 
-        const authResponse = await response.json() as AuthResponse
-        
-        await setAuthResult(authResponse)
+    const authResponse = await response.json() as AuthResponse
+    
+    await setAuthResult(authResponse)
 
-        return {
-            success: true,
-            message: authResponse.role == 'Patient' ? "/patient" : '/staff'
-        }
-
-    } catch (e : any) {
-        if(e.status && e.messages) {
-            return {
-                success: false,
-                message: e.messages
-            }
-        }
-
-        throw e
+    return {
+        success: true,
+        message: "/patient"
     }
 }
 

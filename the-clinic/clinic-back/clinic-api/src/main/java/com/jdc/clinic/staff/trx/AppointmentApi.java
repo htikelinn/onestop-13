@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jdc.clinic.domain.PageResult;
+import com.jdc.clinic.tx.input.AppointmentCancelForm;
 import com.jdc.clinic.tx.input.AppointmentForm;
 import com.jdc.clinic.tx.input.AppointmentSearch;
-import com.jdc.clinic.tx.output.AppointmentDetails;
 import com.jdc.clinic.tx.output.AppointmentListItem;
+import com.jdc.clinic.tx.output.PublicAppointmentResult;
 import com.jdc.clinic.utils.ModificationResult;
 
 @RestController
@@ -29,7 +30,7 @@ public class AppointmentApi {
 	}
 	
 	@GetMapping("{code}")
-	AppointmentDetails findById(@PathVariable String code) {
+	PublicAppointmentResult findById(@PathVariable String code) {
 		return null;
 	}
 	
@@ -45,4 +46,9 @@ public class AppointmentApi {
 		return null;
 	}
 	
+	@PutMapping("{code}/cancel")
+	ModificationResult<String> cancel(@PathVariable String code,
+			@RequestBody @Validated AppointmentCancelForm form) {
+		return null;
+	}
 }

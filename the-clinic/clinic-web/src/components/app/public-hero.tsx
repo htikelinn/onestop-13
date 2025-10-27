@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import Image from 'next/image'
 import { Button } from "../ui/button"
 import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 export default function PublicHero() {
 
@@ -76,9 +77,11 @@ export default function PublicHero() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <Button size="lg" className="group bg-white text-black hover:bg-white/90">
-                                Appointment
-                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            <Button size="lg" className="group bg-white text-black hover:bg-white/90" asChild>
+                                <Link href={"/appointment"}>
+                                    Appointment
+                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </Link>
                             </Button>                            
                         </div>
 
