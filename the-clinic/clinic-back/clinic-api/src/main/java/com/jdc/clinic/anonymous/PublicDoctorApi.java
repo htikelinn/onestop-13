@@ -26,7 +26,7 @@ public class PublicDoctorApi {
 		return service.search(DoctorSearch.builder().deleted(false).build());
 	}
 	
-	@GetMapping("{od}")
+	@GetMapping("{id}")
 	DoctorDetails findById(@PathVariable int id) {
 		return service.findById(id);
 	}

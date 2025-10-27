@@ -18,7 +18,9 @@ export default async function AnonymousLayout({children} : {children : React.Rea
             <AnonymousHeader departments={departments} doctors={doctors} />
 
             <main className="min-h-screen">
-                {children}
+                <div className="px-16 py-4">
+                    {children}
+                </div>
             </main>
 
             <PublicFooter departments={departments} />

@@ -19,7 +19,7 @@ export default function FormsSelect<T extends FieldValues>({control, path, label
         <FormField control={control} name={path} render={({field}) => 
             <FormItem className={className}>
                 {label && <FormLabel>{label}</FormLabel>}
-                <Select defaultValue={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder={`Select ${label || 'One'}`} />
