@@ -36,11 +36,9 @@ export default function CreateAppointmentForAnonymousUser() {
     const scheduleDate = searchParams.get("scheduleDate")
     const scheduleTime = searchParams.get("scheduleTime")
 
-    useEffect(() => {
-        form.setValue("doctorId", doctorId || "")
-        form.setValue("scheduleDate", scheduleDate || "")
-        form.setValue("scheduleTime", scheduleTime || "")
-    }, [doctorId, scheduleDate, scheduleTime, form])
+    const [initDoctorId, setInitDoctorId] = useState(false) 
+    const [initScheduleDate, setInitScheduleDate] = useState(false) 
+    const [initScheduleTime, setInitScheduleTime] = useState(false) 
 
     const [doctors, setDoctors] = useState<DoctorListItem[]>([])
     const [schedules, setSchedules] = useState<PublicSchedule[]>([])
@@ -65,10 +63,20 @@ export default function CreateAppointmentForAnonymousUser() {
         load()
     }, [setDoctors])
 
+    useEffect(() => {
+        if(!initDoctorId && doctors.length > 0 && doctorId) {
+            form.setValue('doctorId', doctorId)
+            setInitDoctorId(true)
+        }
+    }, [doctorId, doctors, initDoctorId, setInitDoctorId]) 
+
     const watchedDoctorId = form.watch('doctorId')
     useEffect(() => {
         async function load() {
             setSchedules([])
+            
+            form.setValue("scheduleDate", "")
+            form.setValue("scheduleTime", "")
 
             if(watchedDoctorId) {
                 const result = await publicClient.findScheduleForDoctor(watchedDoctorId)
@@ -78,14 +86,31 @@ export default function CreateAppointmentForAnonymousUser() {
         load()
     }, [watchedDoctorId, setSchedules])
 
+    useEffect(() => {
+        if(!initScheduleDate && dates.length > 0 && scheduleDate) {
+            form.setValue('scheduleDate', scheduleDate)
+            setInitScheduleDate(true)
+        } 
+    }, [scheduleDate, dates, initScheduleDate, setInitScheduleDate])
+
     const watchedDate = form.watch('scheduleDate')
 
     useEffect(() => {
         setTimes([])
+        form.setValue("scheduleTime", "")
+
         if(watchedDate) {
             setTimes(scheduleMap.get(watchedDate) || [])
         }
     }, [watchedDate, setTimes])
+
+    useEffect(() => {
+        if(!initScheduleTime && times.length > 0, scheduleTime) {
+            form.setValue('scheduleTime', scheduleTime)
+            setInitScheduleTime(true)
+
+        }
+    }, [times, scheduleTime, initScheduleTime, setInitScheduleTime])
 
     const router = useRouter()
 
@@ -98,7 +123,7 @@ export default function CreateAppointmentForAnonymousUser() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(save)} className="grid grid-cols-3 gap-4">
+            <form onSubmit={form.handleSubmit(save)} className="grid grid-cols-3 gap-4 items-start">
                 <FormsSelect control={form.control} path="doctorId" label="Doctor" options={doctors.map(item => ({key : String(item.id), value: `${item.title} ${item.name}`}))} />
                 <FormsSelect control={form.control} path="scheduleDate" label="Date" options={dates.map(item => ({key : item, value: item}))}  className="col-start-1"/>
                 <FormsSelect control={form.control} path="scheduleTime" label="Time" options={times.map(item => ({key : item, value: item}))} />
