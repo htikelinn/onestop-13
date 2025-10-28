@@ -9,7 +9,7 @@ import com.jdc.clinic.domain.trx.entity.Appointment.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record PublicAppointmentForm(
+public record AppointmentFormPublic(
 		@NotNull(message = "Please select doctor.")
 		Integer doctorId,
 		@NotNull(message = "Please select date.")

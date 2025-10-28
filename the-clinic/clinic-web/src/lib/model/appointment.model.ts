@@ -1,55 +1,5 @@
 import z from "zod"
 
-export type AppointmentStatus = "Applied" 
-    | "Check In" 
-    | "Investigated"
-    | "Treatmented"
-    | "Check Out"
-    | "Canceld"
-    | "Expired"
-
-export const AppointmentStatusList = [
-    "Applied", "Check In" , "Investigated", "Treatmented", "Check Out", "Canceld", "Expired"
-]
-
-export type AppointmentSearch = {
-    status?: string
-    dateFrom?: string
-    dateTo?: string
-    keyword? : string
-}
-
-export type AppointmentListItem = {
-    id: string
-    scheduleDate: string
-    scheduleTime: string
-    tokenNo: number
-    department: string
-    doctor: string
-    patient: string
-    phone: string
-    status: AppointmentStatus
-    appointAt: string
-}
-
-export type AppointmentDetails = {
-    chiefComplain : string,
-    remark : string
-    createdBy: string
-    updatedAt: string
-    updatedBy: string
-} & AppointmentListItem
-
-
-export const AppointmentSchema = z.object({
-    scheduleDate : z.date().nonoptional("Please select schedule date."),
-    scheduleTime : z.string().nonoptional("Please select schedule time."),
-    doctorId: z.string().nonoptional("Please select doctor."),
-    chiefComplain: z.string()        
-})
-
-export type AppointmentForm = z.infer<typeof AppointmentSchema>
-
 export const PublicAppointmentSchema = z.object({
     scheduleDate : z.string().nonempty("Please select schedule date."),
     scheduleTime : z.string().nonempty("Please select schedule time."),
@@ -67,3 +17,37 @@ export const AppointmentCancelSchema = z.object({
 })
 
 export type AppointmentCancelForm = z.infer<typeof AppointmentCancelSchema>
+
+export type AppointmentSearch = {
+    doctorId?: string
+    status?: string
+    from?: string
+    to?: string
+    keyword? : string
+} & {
+    page?: string
+    size?: string
+}
+
+export type AppointmentListItem = {
+    code: string
+    scheduleDate: string
+    scheduleTime: string
+    tokenNumber: number
+    department: string
+    doctor: string
+    patient: string
+    phone: string
+    status: string
+    appointAt: string
+}
+
+export type AppointmentDetails = {
+    dob:string
+    chiefComplain : string
+    remark : string
+    deleted: boolean
+    createdBy: string
+    updatedAt: string
+    updatedBy: string
+} & AppointmentListItem

@@ -9,7 +9,7 @@ import com.jdc.clinic.domain.trx.AppointmentPk;
 import com.jdc.clinic.domain.trx.repo.AppointmentRepo;
 import com.jdc.clinic.domain.trx.service.AppointmentPkGenerator;
 import com.jdc.clinic.domain.utils.ClinicBusinessException;
-import com.jdc.clinic.tx.input.PublicAppointmentForm;
+import com.jdc.clinic.tx.input.AppointmentFormPublic;
 import com.jdc.clinic.tx.output.PublicAppointmentResult;
 import com.jdc.clinic.utils.ModificationResult;
 
@@ -23,7 +23,7 @@ public class PublicAppointmentService {
 	private final AppointmentPkGenerator idGenerator;
 	
 	@Transactional
-	public ModificationResult<String> create(PublicAppointmentForm form) {
+	public ModificationResult<String> create(AppointmentFormPublic form) {
 		
 		if(appointmentRepo.countForApplication(form.scheduleDate(), form.scheduleTime(), form.patientName(), form.dateOfBirth()) > 0) {
 			throw new ClinicBusinessException("You already take an appointment for %s %s.".formatted(form.scheduleDate(), form.scheduleTime()));

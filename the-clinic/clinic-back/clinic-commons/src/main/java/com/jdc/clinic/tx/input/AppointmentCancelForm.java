@@ -1,5 +1,9 @@
 package com.jdc.clinic.tx.input;
 
-public record AppointmentCancelForm() {
+import jakarta.validation.constraints.NotBlank;
+
+public record AppointmentCancelForm(
+		@NotBlank(message = "Please enter reason to cencel.")
+		String reason) {
 
 }

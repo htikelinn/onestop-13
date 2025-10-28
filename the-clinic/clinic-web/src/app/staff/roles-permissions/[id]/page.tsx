@@ -9,6 +9,7 @@ import IconComponent from "@/components/app/icon-component"
 import SecurityInfo from "@/components/app/security-info"
 import { usePermissionContext } from "@/lib/provider/permission-context"
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item"
+import Loading from "@/components/app/loading"
 
 export default function RoleDetailsView() {
 
@@ -30,6 +31,12 @@ export default function RoleDetailsView() {
 
     const { permission } = usePermissionContext()
     const canEdit = permission === 'Modify' || permission === 'Delete'
+
+    if(!details) {
+        return (
+            <Loading data="Roles and Permission" />
+        )
+    }
 
     return (
         <section className="space-y-6">

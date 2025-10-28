@@ -28,15 +28,15 @@ export default function DoctorDetailsView() {
         load()
     }, [id, setDetails])
 
+    const {permission} = usePermissionContext()
+    const canEdit = permission === 'Modify' || permission === 'Delete'
+
     if(!details) {
         return (
             <Loading data="Doctor" />
         )
     }
-
-    const {permission} = usePermissionContext()
-    const canEdit = permission === 'Modify' || permission === 'Delete'
-
+    
     return (
         <section className="space-y-6">
             <DetailsHeader icon="StethoscopeIcon" 

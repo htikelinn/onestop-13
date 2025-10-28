@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jdc.clinic.anonymous.service.PublicAppointmentService;
-import com.jdc.clinic.tx.input.PublicAppointmentForm;
+import com.jdc.clinic.tx.input.AppointmentFormPublic;
 import com.jdc.clinic.tx.output.PublicAppointmentResult;
 import com.jdc.clinic.utils.ModificationResult;
 
@@ -24,7 +24,7 @@ public class PublicAppointmentApi {
 
 	@PostMapping
 	ModificationResult<String> create(
-			@Validated @RequestBody PublicAppointmentForm form) {
+			@Validated @RequestBody AppointmentFormPublic form) {
 		return service.create(form);
 	}
 	

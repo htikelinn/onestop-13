@@ -33,14 +33,14 @@ export default function DepartmentDetailsView() {
         }
     }, [id, setDetails])
 
+    const {permission} = usePermissionContext()
+    const canEdit = permission === 'Modify' || permission === 'Delete'
+
     if(!details) {
         return (
             <Loading data="Department" />
         )
     }
-
-    const {permission} = usePermissionContext()
-    const canEdit = permission === 'Modify' || permission === 'Delete'
 
     return (
         <section className="space-y-6">

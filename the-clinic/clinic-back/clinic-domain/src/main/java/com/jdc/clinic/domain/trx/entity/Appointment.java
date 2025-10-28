@@ -11,6 +11,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -42,6 +43,11 @@ public class Appointment extends BaseEntity{
 
 	@Column(nullable = false)
 	private String chiefComplaint;
+	
+	private String remark;
+	
+	@OneToOne(mappedBy = "appoinement")
+	private PatientAppointment patient;
 	
 	
 	public enum Status {

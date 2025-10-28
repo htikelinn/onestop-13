@@ -28,15 +28,15 @@ export default function EmployeeDetailsView() {
         load()
     }, [id, setDetails])
 
+    const {permission} = usePermissionContext()
+    const canEdit = permission === 'Modify' || permission === 'Delete'
+    
     if(!details) {
         return (
             <Loading data="Employee" />
         )
     }
 
-    const {permission} = usePermissionContext()
-    const canEdit = permission === 'Modify' || permission === 'Delete'
-    
     return (
         <section className="space-y-6">
             <DetailsHeader deleted={details.deleted}
