@@ -57,7 +57,7 @@ export const PublicAppointmentSchema = z.object({
     patientName: z.string().nonempty("Please patient name."),
     dateOfBirth: z.string().nonempty("Please enter date of birth."),
     phone: z.string().nonempty("please enter phone number."),
-    chiefComplain: z.string().nonempty("Please enter reason for visit."),
+    chiefComplaint: z.string().nonempty("Please enter reason for visit."),
 })
 
 export type PublicAppointmentForm = z.infer<typeof PublicAppointmentSchema>

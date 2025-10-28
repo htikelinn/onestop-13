@@ -1,11 +1,12 @@
 import DepartmentEditView from "@/components/app/edit-department"
+import PageTitle from "@/components/app/page-title"
 
-export default async function EditDepartment(props : PageProps<'/staff/department/edit'>) {
+export default async function EditDepartment() {
 
-    const { id } = await props.searchParams
-    const departmentId = id as string | undefined
-    
     return (
-        <DepartmentEditView id={departmentId} />
+        <section className="space-y-6">
+            <PageTitle icon="Pencil" name="Edit Department" />
+            <DepartmentEditView />
+        </section>
     ) 
 }

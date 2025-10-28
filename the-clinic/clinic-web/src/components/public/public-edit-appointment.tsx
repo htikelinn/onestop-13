@@ -27,7 +27,7 @@ export default function CreateAppointmentForAnonymousUser() {
             patientName: "",
             dateOfBirth: "",
             phone: "",
-            chiefComplain: ""
+            chiefComplaint: ""
         }
     })
 
@@ -132,7 +132,7 @@ export default function CreateAppointmentForAnonymousUser() {
                 <FormsInput control={form.control} path="dateOfBirth" label="Date of Birth" type="date" />
                 <FormsInput control={form.control} path="phone" label="Phone Number" type="tel" />
 
-                <FormsTextarea control={form.control} path="chiefComplain" label="Reason to visit" className="col-span-3" />
+                <FormsTextarea control={form.control} path="chiefComplaint" label="Reason to visit" className="col-span-3" />
 
                 <div>
                     <Button type="submit">

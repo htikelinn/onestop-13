@@ -2,9 +2,9 @@ package com.jdc.clinic.tx.input;
 
 import java.time.LocalDate;
 
-import com.jdc.clinic.domain.master.entity.Doctor;
 import com.jdc.clinic.domain.trx.AppointmentPk;
 import com.jdc.clinic.domain.trx.entity.Appointment;
+import com.jdc.clinic.domain.trx.entity.Appointment.Status;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,14 +25,14 @@ public record PublicAppointmentForm(
 		@NotBlank(message = "Please enter reason to visit.")
 		String chiefComplaint) {
 
-	public Appointment entity(Doctor doctor, AppointmentPk id) {
+	public Appointment entity(AppointmentPk id) {
 		var entity = new Appointment();
 		entity.setId(id);
-		entity.setDoctor(doctor);
 		entity.setPatientName(patientName);
 		entity.setDob(dateOfBirth);
 		entity.setPhone(phone);
 		entity.setChiefComplaint(chiefComplaint);
+		entity.setStatus(Status.Applied);
 		return entity;
 	}
 

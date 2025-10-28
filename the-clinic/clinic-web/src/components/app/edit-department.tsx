@@ -5,19 +5,29 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import * as departmentClient from "@/lib/model/department.service"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Form } from "../ui/form"
 import FormsInput from "../forms/forms-input"
-import FormsSelect from "../forms/forms-select"
+import FormsSelect, { SelectOption } from "../forms/forms-select"
 import FormsTextarea from "../forms/forms-textarea"
 import { Button } from "../ui/button"
 import { RefreshCw, Save } from "lucide-react"
 import { safeCall } from "@/lib/action-utils"
 
-export default function DepartmentEditView({id} : {id?: string}) {
+const DEPARTMENT_ICONS:SelectOption[] = [
+    {key: "Stethoscope", value : "General Medicine"},
+    {key: "Heart", value : "Cardiology"},
+    {key: "Brain", value : "Neurology"},
+    {key: "Baby", value : "Pediatrics"},
+    {key: "Bone", value : "Orthopedics"},
+    {key: "Microscope", value : "Laboratory"}
+]
+
+export default function DepartmentEditView() {
 
     const router = useRouter()
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id")
 
     const form = useForm({
         resolver: zodResolver(DepartmentSchema),
@@ -45,6 +55,16 @@ export default function DepartmentEditView({id} : {id?: string}) {
         load()
     }, [id, form])
 
+    const watchedIcon = form.watch('icon')
+
+    useEffect(() => {
+        const selectedIconName = DEPARTMENT_ICONS.filter(a => a.key == watchedIcon)
+            .map(a => a.value)
+            .pop()
+
+        form.setValue('name', selectedIconName || "")
+    }, [watchedIcon, form])
+
     async function onSave(form:DepartmentForm) {
         safeCall(async () => {
             const result = await (id ? departmentClient.update(id, form) : departmentClient.create(form))
@@ -55,22 +75,13 @@ export default function DepartmentEditView({id} : {id?: string}) {
     return (
         <section>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSave)} className="space-y-3">
-                    <FormsInput control={form.control} path="name" label="Department Name" className="w-1/3" />
+                <form onSubmit={form.handleSubmit(onSave)} className="grid grid-cols-3 gap-4 items-start">
 
-                    <div className="flex items-start gap-3">
-                        <FormsSelect control={form.control} path="icon" label="Icon" className="w-1/3" options={[
-                            {key: "Stethoscope", value : "General Medicine"},
-                            {key: "Heart", value : "Cardiology"},
-                            {key: "Brain", value : "Neurology"},
-                            {key: "Baby", value : "Pediatrics"},
-                            {key: "Bone", value : "Orthopedics"},
-                            {key: "Microscope", value : "Laboratory"}
-                        ]} />
-                        <FormsInput control={form.control} path="phone" type="tel" label="Phone Number" className="w-1/3" />
-                    </div>
+                    <FormsSelect control={form.control} path="icon" label="Icon" options={DEPARTMENT_ICONS} />
+                    <FormsInput control={form.control} path="name" label="Department Name" />
+                    <FormsInput control={form.control} path="phone" type="tel" label="Phone Number" />
 
-                    <FormsTextarea control={form.control} path="description" label="Description" />
+                    <FormsTextarea control={form.control} path="description" label="Description" className="col-span-3" />
 
                     <div className="flex gap-2">
                         <Button type="submit">
