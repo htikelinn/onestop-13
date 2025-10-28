@@ -10,18 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jdc.clinic.auth.output.MenuGroup;
+import com.jdc.clinic.auth.output.PermissionItem;
 import com.jdc.clinic.security.service.MenuService;
 
 @RestController
-@RequestMapping("/staff/menu")
+@RequestMapping("/staff")
 public class MenuApi {
 	
 	@Autowired
 	private MenuService service;
 	
-	@GetMapping("{email}")
+	@GetMapping("/menu/{email}")
 	@PreAuthorize("#email eq authentication.name")
 	List<MenuGroup> getMenu(@PathVariable String email) {
 		return service.getUserMenu(email);
+	}
+	
+	@GetMapping("/permissions/{email}")
+	@PreAuthorize("#email eq authentication.name")
+	List<PermissionItem> getPermission(@PathVariable String email) {
+		return service.getUserPermission(email);
 	}
 }

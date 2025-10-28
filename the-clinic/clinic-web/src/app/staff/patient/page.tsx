@@ -11,8 +11,6 @@ import { useForm } from "react-hook-form"
 export default function PatientList() {
 
     const [result, setResult] = useState<PageResult<PatientListItem>>()
-    const list = result?.list || []
-    const pageInfo = result?.pageInfo
 
     async function search(form: PatientSearch) {
 
@@ -21,6 +19,14 @@ export default function PatientList() {
     useEffect(() => {
         search({})
     }, [setResult])
+
+    if(!result) {
+        return (
+            <></>
+        )
+    }
+
+    const {list, ...pageInfo} = result
 
     return (
         <div>

@@ -6,10 +6,13 @@ import { useEffect, useState } from "react"
 import * as departmentClient from '@/lib/model/department.service'
 import { LucideIconType } from "@/lib/model/auth.model"
 import { DoctorListItem } from "@/lib/model/doctor.model"
-import { Card } from "@/components/ui/card"
 import SecurityInfo from "@/components/app/security-info"
 import NoSearchResult from "@/components/app/no-search-result"
 import DetailsHeader from "@/components/app/details-header"
+import { usePermissionContext } from "@/lib/provider/permission-context"
+import Loading from "@/components/app/loading"
+import { Item, ItemContent, ItemDescription, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item"
+import { User } from "lucide-react"
 
 export default function DepartmentDetailsView() {
 
@@ -17,6 +20,7 @@ export default function DepartmentDetailsView() {
     const [details, setDetails] = useState<DepartmentDetails>()
 
     const doctors = details?.doctors || []
+
 
     useEffect(() => {
         async function load(id:string) {
@@ -29,18 +33,26 @@ export default function DepartmentDetailsView() {
         }
     }, [id, setDetails])
 
+    if(!details) {
+        return (
+            <Loading data="Department" />
+        )
+    }
+
+    const {permission} = usePermissionContext()
+    const canEdit = permission === 'Modify' || permission === 'Delete'
 
     return (
         <section className="space-y-6">
             <section>
 
-                <DetailsHeader icon={(details?.icon || 'ArrowRight') as LucideIconType} 
-                    title={details?.name || ""} 
-                    subTitle={details?.phone || ""} 
-                    deleted={details?.deleted || false} 
-                    editPath={`/staff/department/edit?id=${id}`} />
+                <DetailsHeader icon={(details.icon || 'ArrowRight') as LucideIconType} 
+                    title={details.name} 
+                    subTitle={details.phone} 
+                    deleted={details.deleted} 
+                    editPath={canEdit ? `/staff/department/edit?id=${id}` : undefined} />
 
-                <p className="text-foreground/70 mt-4">{details?.description}</p>
+                <p className="text-foreground/70 mt-4">{details.description}</p>
 
             </section>
 
@@ -49,21 +61,29 @@ export default function DepartmentDetailsView() {
                     Doctors
                 </h3>
 
-                {doctors.length == 0 && 
-                    <NoSearchResult data="Doctors in department" />
+                {doctors.length == 0 ? 
+                    <NoSearchResult data="Doctors in department" /> :
+                    <div className="grid grid-cols-3 gap-4">
+                        {doctors.map(item => 
+                            <Item key={item.id} variant={"outline"}>
+                                <ItemMedia>
+                                    <User />
+                                </ItemMedia>
+                                <ItemContent>
+                                    <ItemTitle>{`${item.title} ${item.name}`}</ItemTitle>
+                                    <ItemDescription>{item.phone}</ItemDescription>
+                                </ItemContent>
+                            </Item>
+                        )}
+                    </div>
                 }
 
-                <div className="grid grid-cols-3 gap-4">
-                    {doctors.map(item => 
-                        <DoctorInfo key={item.id} item={item} />
-                    )}
-                </div>
             </section>    
             
-            <SecurityInfo createdAt={details?.createdAt || ""} 
-                createdBy={details?.createdBy || ""}
-                modifiedAt={details?.modifiedAt || ""}
-                modifiedBy={details?.modifiedBy || ""} />
+            <SecurityInfo createdAt={details.createdAt} 
+                createdBy={details.createdBy}
+                modifiedAt={details.modifiedAt}
+                modifiedBy={details.modifiedBy} />
 
         </section>
     )

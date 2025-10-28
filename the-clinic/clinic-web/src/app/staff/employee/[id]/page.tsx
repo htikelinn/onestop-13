@@ -9,6 +9,8 @@ import DetailsHeader from "@/components/app/details-header"
 import SecurityInfo from "@/components/app/security-info"
 import Information from "@/components/app/information"
 import EmploymentInfo from "@/components/app/employment-info"
+import { usePermissionContext } from "@/lib/provider/permission-context"
+import Loading from "@/components/app/loading"
 
 export default function EmployeeDetailsView() {
 
@@ -28,20 +30,26 @@ export default function EmployeeDetailsView() {
 
     if(!details) {
         return (
-            <></>
+            <Loading data="Employee" />
         )
     }
 
+    const {permission} = usePermissionContext()
+    const canEdit = permission === 'Modify' || permission === 'Delete'
+    
     return (
         <section className="space-y-6">
             <DetailsHeader deleted={details.deleted}
                 icon="User" title={details.name} subTitle={details.role} 
-                editPath={`/staff/employee/edit?id=${details.id}`} />
+                editPath={canEdit ? `/staff/employee/edit?id=${details.id}` : undefined} />
 
             <section className="space-y-4">
                 <h3 className="text-xl">Contact Information</h3>
-                <Information icon="Phone" title="Phone Number" value={details.phone} />
-                <Information icon="Mail" title="Email" value={details.email} />
+
+                <div className="grid grid-cols-3 gap-4">
+                    <Information icon="Phone" title="Phone Number" value={details.phone} />
+                    <Information icon="Mail" title="Email" value={details.email} />
+                </div>
             </section>
 
             <EmploymentInfo assignAt={details.assignAt} retiredAt={details.retiredAt} />

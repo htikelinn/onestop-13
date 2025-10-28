@@ -11,6 +11,7 @@ import FormsInput from "@/components/forms/forms-input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { usePermissionContext } from "@/lib/provider/permission-context"
 
 export default function DepartmentManagement() {
 
@@ -41,6 +42,8 @@ export default function DepartmentManagement() {
 }
 
 function SearchForm({onSearch} : {onSearch : (form:DepartmentSearch) => void}) {
+
+    const {permission} = usePermissionContext()
     
     const form = useForm<DepartmentSearch>({
         defaultValues: {
@@ -65,11 +68,13 @@ function SearchForm({onSearch} : {onSearch : (form:DepartmentSearch) => void}) {
                         <Search/> Search
                     </Button>
 
-                    <Button asChild variant={'destructive'} type="button">
-                        <Link href={"/staff/department/create"}>
-                            <Plus /> Add New
-                        </Link>
-                    </Button>
+                    {permission !== 'Read' && 
+                        <Button asChild variant={'destructive'} type="button">
+                            <Link href={"/staff/department/create"}>
+                                <Plus /> Add New
+                            </Link>
+                        </Button>
+                    }
                 </div>
             </form>
         </Form>

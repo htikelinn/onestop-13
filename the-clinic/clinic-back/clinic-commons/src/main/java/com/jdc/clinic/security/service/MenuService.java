@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jdc.clinic.auth.output.MenuGroup;
 import com.jdc.clinic.auth.output.MenuItem;
+import com.jdc.clinic.auth.output.PermissionItem;
 import com.jdc.clinic.domain.auth.entity.Account.Type;
 import com.jdc.clinic.domain.auth.entity.Feature;
 import com.jdc.clinic.domain.auth.entity.Permission;
@@ -77,6 +78,13 @@ public class MenuService {
 		}
 		
 		return menuGraups;
+	}
+
+	public List<PermissionItem> getUserPermission(String email) {
+		var employee = safeCall(employeeRepo.findOneByAccountEmail(email), "employee", "email", email);
+		return employee.getRole().getPermissions().stream()
+				.map(a -> new PermissionItem(a.getFeature().getPath(), a.getPermission()))
+				.toList();
 	}
 
 }

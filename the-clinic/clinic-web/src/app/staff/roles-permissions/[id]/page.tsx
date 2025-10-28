@@ -7,6 +7,8 @@ import * as roleClient from '@/lib/model/role.service'
 import DetailsHeader from "@/components/app/details-header"
 import IconComponent from "@/components/app/icon-component"
 import SecurityInfo from "@/components/app/security-info"
+import { usePermissionContext } from "@/lib/provider/permission-context"
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item"
 
 export default function RoleDetailsView() {
 
@@ -26,24 +28,30 @@ export default function RoleDetailsView() {
         load()
     }, [id, setDetails])
 
+    const { permission } = usePermissionContext()
+    const canEdit = permission === 'Modify' || permission === 'Delete'
+
     return (
         <section className="space-y-6">
             <DetailsHeader icon="Shield" title={details?.name || ''}
                 subTitle={details?.description || ''} 
                 deleted={details?.deleted || false}
-                editPath={`/staff/roles-permissions/edit?id=${id}`} />
+                editPath={canEdit ? `/staff/roles-permissions/edit?id=${id}` : undefined} />
 
             <section className="space-y-4">
                 <h3 className="text-lg">Permissions</h3>
-                <div className="grid grid-cols-2 gap-y-4 gap-x-16 border rounded-lg p-4">
+
+                <div className="grid grid-cols-3 gap-4">
                     {permissions.length > 0 && permissions.map((item, index) => 
-                        <div key={index} className="flex justify-between">
-                            <div className="flex items-center space-x-2">
+                        <Item key={index} variant={"outline"}>
+                            <ItemMedia>
                                 <IconComponent name={item.icon} />
-                                <div>{item.name}</div>
-                            </div>
-                            <div className="text-foreground/60">{item.permission || "No Permission"}</div>
-                        </div>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>{item.name}</ItemTitle>
+                                <ItemDescription>{item.permission || "No Permission"}</ItemDescription>
+                            </ItemContent>
+                        </Item>
                     )}
                 </div>
             </section>

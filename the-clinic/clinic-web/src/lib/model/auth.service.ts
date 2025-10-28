@@ -48,8 +48,8 @@ export async function getEmployeeMenus():Promise<Menu[]> {
 
 export async function logoutAction() {
     const cookieStore = await cookies()
-    cookieStore.delete("accessToken")
-    cookieStore.delete("refreshToken")
-    cookieStore.delete("accountInfo")
+    cookieStore.getAll().forEach(cookie => {
+        cookieStore.delete(cookie)
+    })
     redirect("/signin")
 }

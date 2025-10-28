@@ -1,7 +1,14 @@
-import PageTitle from "@/components/app/page-title";
-import { LayoutDashboard, ShieldCheck, Stethoscope, UserLock, UserStar } from "lucide-react";
+'use client'
+
+import { loadPermission } from "@/lib/model/auth-permission.service"
+import { useEffect } from "react"
 
 export default function EmployeeHome() {
+
+    useEffect(() => {
+        loadPermission()
+    }, [])
+
     return (
         <>
         </>

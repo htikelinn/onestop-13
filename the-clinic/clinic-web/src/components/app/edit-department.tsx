@@ -13,6 +13,8 @@ import FormsTextarea from "../forms/forms-textarea"
 import { Button } from "../ui/button"
 import { RefreshCw, Save } from "lucide-react"
 import { safeCall } from "@/lib/action-utils"
+import { usePermissionContext } from "@/lib/provider/permission-context"
+import { logoutAction } from "@/lib/model/auth.service"
 
 const DEPARTMENT_ICONS:SelectOption[] = [
     {key: "Stethoscope", value : "General Medicine"},
@@ -28,6 +30,24 @@ export default function DepartmentEditView() {
     const router = useRouter()
     const searchParams = useSearchParams();
     const id = searchParams.get("id")
+
+    const {permission} = usePermissionContext()
+
+    useEffect(() => {
+
+        async function logout() {
+            await logoutAction()
+            router.replace('/signin')
+        }
+
+        if(permission === 'Read') {
+            logout()
+        }
+
+        if(id && (permission === 'Write')) {
+            logout()
+        }
+    }, [id, permission, router])
 
     const form = useForm({
         resolver: zodResolver(DepartmentSchema),

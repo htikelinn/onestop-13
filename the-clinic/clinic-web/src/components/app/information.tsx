@@ -1,17 +1,18 @@
 import { LucideIconType } from "@/lib/model/auth.model";
 import IconComponent from "./icon-component";
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "../ui/item";
 
 export default function Information({icon, title, value} : {icon : LucideIconType, title : string, value : string}) {
     return (
-        <div className="p-4 border rounded-lg">
-            <div className="flex items-center gap-4">
+        <Item variant={'outline'}>
+            <ItemMedia>
                 <IconComponent name={icon} />
+            </ItemMedia>
 
-                <div>
-                    <div className="text-foreground/70 text-sm">{title}</div>
-                    <div>{value}</div>
-                </div>
-            </div>
-        </div>
+            <ItemContent>
+                <ItemTitle>{title}</ItemTitle>
+                <ItemDescription>{value}</ItemDescription>
+            </ItemContent>
+        </Item>
     )
 }

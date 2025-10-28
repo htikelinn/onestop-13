@@ -10,7 +10,7 @@ type DetailsHeaderPops = {
     title: string
     subTitle: string
     deleted: boolean
-    editPath: string
+    editPath?: string
 }
 
 export default function DetailsHeader({icon, title, subTitle, deleted, editPath} : DetailsHeaderPops) {
@@ -26,11 +26,13 @@ export default function DetailsHeader({icon, title, subTitle, deleted, editPath}
                 </div>
             </div>
 
-            <Button asChild>
-                <Link href={editPath}>
-                    <Pencil /> Edit
-                </Link>
-            </Button>
+            {editPath && 
+                <Button asChild>
+                    <Link href={editPath}>
+                        <Pencil /> Edit
+                    </Link>
+                </Button>
+            }
         </h1>
     )
 }

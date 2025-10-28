@@ -2,6 +2,7 @@ package com.jdc.clinic.domain.trx;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
@@ -18,6 +19,8 @@ public class AppointmentPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyyMMdd");
+	private static final DateTimeFormatter INPUT_TIME = DateTimeFormatter.ofPattern("HHmm");
+	private static final DateTimeFormatter OUTPUT_TIME = DateTimeFormatter.ofPattern("HH:mm");
 	
 	@Column(nullable = false, name = "doctor_id")
 	private int doctorId;
@@ -39,14 +42,25 @@ public class AppointmentPk implements Serializable {
 	}
 
 	public String getCode() {
-		return "%s-%s-%03d-%04d".formatted(scheduleDate.format(DF), scheduleTime, doctorId, tokenNumber);
+		return "%s%s%03d%04d".formatted(scheduleDate.format(DF), getTime(), doctorId, tokenNumber);
 	}
 	
 	public static AppointmentPk parse(String code) {
-		var array = code.split("-");
-		return new AppointmentPk(Integer.parseInt(array[2]), 
-				LocalDate.parse(array[0]), 
-				array[1], 
-				Integer.parseInt(array[3]));
+		var date = LocalDate.parse(code.substring(0, 8), DF);
+		var time = parseScheduleTime(code.substring(8, 16));
+		var doctorId = Integer.parseInt(code.substring(16, 19));
+		var token = Integer.parseInt(code.substring(19));
+		
+		return new AppointmentPk(doctorId, date, time, token);
+	}
+	
+	private String getTime() {
+		return scheduleTime.replaceAll(":", "").replaceAll(" - ", "");
+	}
+	
+	private static String parseScheduleTime(String str) {
+		var timeFrom = LocalTime.parse(str.substring(0, 4), INPUT_TIME);
+		var timeTo = LocalTime.parse(str.substring(4), INPUT_TIME);
+		return "%s - %s".formatted(timeFrom.format(OUTPUT_TIME), timeTo.format(OUTPUT_TIME));
 	}
 }

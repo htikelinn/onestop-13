@@ -18,6 +18,8 @@ import { Button } from "../ui/button"
 import { Save } from "lucide-react"
 import IconComponent from "./icon-component"
 import { safeCall } from "@/lib/action-utils"
+import { usePermissionContext } from "@/lib/provider/permission-context"
+import { logoutAction } from "@/lib/model/auth.service"
 
 export default function EditRoleView() {
 
@@ -85,6 +87,25 @@ export default function EditRoleView() {
             router.push(`/staff/roles-permissions/${result.id}`)
         })
     }
+
+    const { permission } = usePermissionContext()
+
+    useEffect(() => {
+
+        async function logout() {
+            await logoutAction()
+            router.replace('/signin')
+        }
+
+        if(permission === 'Read') {
+            logout()
+        }
+
+        if(id && (permission === 'Write')) {
+            logout()
+        }
+    }, [id, permission, router])
+
 
     return (
         <Form {...form}>

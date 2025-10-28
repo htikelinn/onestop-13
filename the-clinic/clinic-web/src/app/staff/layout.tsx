@@ -6,6 +6,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import type { LayoutProps } from "@/lib";
 import { Menu } from "@/lib/model/auth.model";
 import { getEmployeeMenus } from "@/lib/model/auth.service";
+import PermissionContextProvider from "@/lib/provider/permission-context-provider";
 
 export default async function EmployeeLayout({children} : LayoutProps) {
     
@@ -29,7 +30,9 @@ export default async function EmployeeLayout({children} : LayoutProps) {
                 <AppHeader baseUrl="/staff" routeNames={ROUTE_NAMES} />
 
                 <main className="px-8 py-4">
-                    {children}
+                    <PermissionContextProvider>
+                        {children}
+                    </PermissionContextProvider>
                 </main>
             </SidebarInset>
         </SidebarProvider>

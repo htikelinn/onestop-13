@@ -25,7 +25,7 @@ public class Appointment extends BaseEntity{
 	private AppointmentPk id;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(insertable = false, updatable = false)
+	@JoinColumn(insertable = false, updatable = false, name = "doctor_id", referencedColumnName = "employee_id")
 	private Doctor doctor;
 	
 	@Column(nullable = false)

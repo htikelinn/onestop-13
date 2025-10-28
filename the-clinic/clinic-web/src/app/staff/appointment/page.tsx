@@ -6,8 +6,11 @@ import { AppointmentSearch } from "@/lib/model/appointment.model"
 import { useForm } from "react-hook-form"
 
 export default function AppointmentList() {
+
     return (
-        <></>
+        <>
+
+        </>
     )
 }
 

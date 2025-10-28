@@ -17,6 +17,8 @@ import FormsInput from "../forms/forms-input"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react"
 import { safeCall } from "@/lib/action-utils"
+import { usePermissionContext } from "@/lib/provider/permission-context"
+import { logoutAction } from "@/lib/model/auth.service"
 
 export default function EmployeeEditView() {
 
@@ -73,6 +75,24 @@ export default function EmployeeEditView() {
             router.push(`/staff/employee/${result.id}`)
         })
     }
+
+    const { permission } = usePermissionContext()
+
+    useEffect(() => {
+
+        async function logout() {
+            await logoutAction()
+            router.replace('/signin')
+        }
+
+        if(permission === 'Read') {
+            logout()
+        }
+
+        if(id && (permission === 'Write')) {
+            logout()
+        }
+    }, [id, permission, router])    
 
     return (
         <Form {...form}>

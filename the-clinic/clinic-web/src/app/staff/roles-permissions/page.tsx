@@ -13,6 +13,7 @@ import { ArrowRight, Plus, Search } from "lucide-react"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import ActiveStatus from "@/components/app/active-status"
+import { usePermissionContext } from "@/lib/provider/permission-context"
 
 export default function RoleAndPermissionManagement() {
 
@@ -36,6 +37,8 @@ export default function RoleAndPermissionManagement() {
 }
 
 function SearchForm({onSearch} : {onSearch : (form:RoleSearch) => void}) {
+
+    const { permission } = usePermissionContext()
     
     const form = useForm<RoleSearch>({
         defaultValues: {
@@ -43,6 +46,10 @@ function SearchForm({onSearch} : {onSearch : (form:RoleSearch) => void}) {
             keyword: ""
         }
     })
+
+    function canWrite() {
+        return permission === 'Write' || permission === 'Modify' || permission === 'Delete'
+    }
 
     return (
         <Form {...form}>
@@ -60,11 +67,13 @@ function SearchForm({onSearch} : {onSearch : (form:RoleSearch) => void}) {
                         <Search/> Search
                     </Button>
 
-                    <Button type="button" variant='destructive' asChild>
-                        <Link href={"/staff/roles-permissions/create"}>
-                            <Plus /> Add New
-                        </Link>
-                    </Button>
+                    {canWrite() && 
+                        <Button type="button" variant='destructive' asChild>
+                            <Link href={"/staff/roles-permissions/create"}>
+                                <Plus /> Add New
+                            </Link>
+                        </Button>
+                    }
                 </div>
             </form>
         </Form>
