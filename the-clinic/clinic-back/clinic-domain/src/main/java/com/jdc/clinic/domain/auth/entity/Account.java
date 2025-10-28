@@ -1,6 +1,7 @@
 package com.jdc.clinic.domain.auth.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +27,16 @@ public class Account implements Serializable{
 	private Type type;
 	
 	public enum Type {
-		Admin, Patient, Employee
+		Admin, Patient, Employee;
+
+		public static boolean is(List<String> authorities, Type type) {
+			for(var auth : authorities) {
+				if(auth.equals(type.name())) {
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
 }

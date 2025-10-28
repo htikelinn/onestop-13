@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Plus, Search } from "lucide-react"
 import Link from "next/link"
 import ActiveStatus from "@/components/app/active-status"
+import { usePermissionContext } from "@/lib/provider/permission-context"
 
 
 export default function DoctorList() {
@@ -40,7 +41,10 @@ export default function DoctorList() {
 }
 
 function SearchForm({onSearch} : {onSearch : (form:DoctorSearch) => void}) {
+
     const [departments, setDepartments] = useState<DepartmentListItem[]>([])
+    const { permission } = usePermissionContext()
+    const canWrite = permission === 'Write' || permission === 'Modify' || permission === 'Delete'
 
     const form = useForm<DoctorSearch>({
         defaultValues: {
@@ -81,11 +85,13 @@ function SearchForm({onSearch} : {onSearch : (form:DoctorSearch) => void}) {
                         <Search /> Search
                     </Button>
 
-                    <Button type="button" variant="destructive" asChild>
-                        <Link href="/staff/doctor/create">
-                            <Plus /> Add New
-                        </Link>
-                    </Button>
+                    {canWrite && 
+                        <Button type="button" variant="destructive" asChild>
+                            <Link href="/staff/doctor/create">
+                                <Plus /> Add New
+                            </Link>
+                        </Button>
+                    }
                 </div>
             </form>
         </Form>

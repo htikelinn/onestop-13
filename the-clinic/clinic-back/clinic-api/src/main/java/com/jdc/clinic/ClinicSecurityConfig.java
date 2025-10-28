@@ -14,6 +14,7 @@ import org.springframework.security.web.access.ExceptionTranslationFilter;
 
 import com.jdc.clinic.utils.security.JwtTokenFilter;
 import com.jdc.clinic.utils.security.SecurityExceptionResolver;
+import com.jdc.clinic.utils.security.StaffAuthorizationManager;
 
 @Configuration
 public class ClinicSecurityConfig {
@@ -27,7 +28,7 @@ public class ClinicSecurityConfig {
 		http.authorizeHttpRequests(request -> {
 			request.requestMatchers("/auth/**", "/anonymous/**").permitAll();
 			request.requestMatchers("/patient/**").hasAuthority("Patient");
-			request.requestMatchers("/staff/**").hasAnyAuthority("Employee", "Admin");
+			request.requestMatchers("/staff/**").access(staffAuthorizationManager());
 			request.anyRequest().authenticated();
 		});
 		
@@ -60,6 +61,11 @@ public class ClinicSecurityConfig {
 	@Bean
 	SecurityExceptionResolver securityExceptionResolver() {
 		return new SecurityExceptionResolver();
+	}
+	
+	@Bean
+	StaffAuthorizationManager staffAuthorizationManager() {
+		return new StaffAuthorizationManager();
 	}
 	
 }

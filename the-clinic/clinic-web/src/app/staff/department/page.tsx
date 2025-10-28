@@ -43,14 +43,14 @@ export default function DepartmentManagement() {
 
 function SearchForm({onSearch} : {onSearch : (form:DepartmentSearch) => void}) {
 
-    const {permission} = usePermissionContext()
-    
     const form = useForm<DepartmentSearch>({
         defaultValues: {
             deleted: "-1",
             keyword: ""
         }
     })
+    const { permission } = usePermissionContext()
+    const canWrite = permission === 'Write' || permission === 'Modify' || permission === 'Delete'
     
     return (
         <Form {...form}>
@@ -68,7 +68,7 @@ function SearchForm({onSearch} : {onSearch : (form:DepartmentSearch) => void}) {
                         <Search/> Search
                     </Button>
 
-                    {permission !== 'Read' && 
+                    {canWrite && 
                         <Button asChild variant={'destructive'} type="button">
                             <Link href={"/staff/department/create"}>
                                 <Plus /> Add New

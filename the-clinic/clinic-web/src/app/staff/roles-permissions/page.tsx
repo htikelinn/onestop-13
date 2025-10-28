@@ -38,7 +38,6 @@ export default function RoleAndPermissionManagement() {
 
 function SearchForm({onSearch} : {onSearch : (form:RoleSearch) => void}) {
 
-    const { permission } = usePermissionContext()
     
     const form = useForm<RoleSearch>({
         defaultValues: {
@@ -47,9 +46,8 @@ function SearchForm({onSearch} : {onSearch : (form:RoleSearch) => void}) {
         }
     })
 
-    function canWrite() {
-        return permission === 'Write' || permission === 'Modify' || permission === 'Delete'
-    }
+    const { permission } = usePermissionContext()
+    const canWrite = permission === 'Write' || permission === 'Modify' || permission === 'Delete'
 
     return (
         <Form {...form}>
@@ -67,7 +65,7 @@ function SearchForm({onSearch} : {onSearch : (form:RoleSearch) => void}) {
                         <Search/> Search
                     </Button>
 
-                    {canWrite() && 
+                    {canWrite && 
                         <Button type="button" variant='destructive' asChild>
                             <Link href={"/staff/roles-permissions/create"}>
                                 <Plus /> Add New

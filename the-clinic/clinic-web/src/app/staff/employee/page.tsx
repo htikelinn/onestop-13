@@ -17,6 +17,7 @@ import * as employeeClient from '@/lib/model/employee.service'
 import ActiveStatus from "@/components/app/active-status"
 import { PagerInfo } from "@/lib"
 import Pagination from "@/components/app/pagination"
+import { usePermissionContext } from "@/lib/provider/permission-context"
 
 export default function EmployeeList() {
 
@@ -55,6 +56,9 @@ function SearchForm({onSearch} : {onSearch : (form:EmployeeSearch) => void}) {
     const form = useForm<EmployeeSearch>()
     const [roles, setRoles] = useState<RoleListItem[]>([])
 
+    const { permission } = usePermissionContext()
+    const canWrite = permission === 'Write' || permission === 'Modify' || permission === 'Delete'
+
     useEffect(() => {
         async function loadRoles() {
             const result = await roleClient.search({deleted : "false"})
@@ -87,11 +91,13 @@ function SearchForm({onSearch} : {onSearch : (form:EmployeeSearch) => void}) {
                         <Search /> Search
                     </Button>
 
-                    <Button type="button" variant="destructive" asChild>
-                        <Link href="/staff/employee/create">
-                            <Plus /> Add New
-                        </Link>
-                    </Button>
+                    {canWrite && 
+                        <Button type="button" variant="destructive" asChild>
+                            <Link href="/staff/employee/create">
+                                <Plus /> Add New
+                            </Link>
+                        </Button>
+                    }
                 </div>
             </form>
         </Form>
