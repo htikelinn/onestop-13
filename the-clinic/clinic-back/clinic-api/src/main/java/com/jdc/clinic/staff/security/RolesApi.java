@@ -20,7 +20,7 @@ import com.jdc.clinic.security.service.RoleService;
 import com.jdc.clinic.utils.ModificationResult;
 
 @RestController
-@RequestMapping("/staff/role")
+@RequestMapping("/staff/roles-permissions")
 public class RolesApi {
 	
 	@Autowired

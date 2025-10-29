@@ -5,7 +5,7 @@ import { secureRequest } from "../rest-clients"
 import { POST_INIT, PUT_INIT, queryString, } from "../utils"
 import { RoleDetails, RoleForm, RoleListItem, RoleSearch } from "./role.model"
 
-const ENDPOINT = "staff/role"
+const ENDPOINT = "staff/roles-permissions"
 
 export async function search(form: RoleSearch) : Promise<RoleListItem[]> {
     const response = await secureRequest(`${ENDPOINT}?${queryString(form)}`)

@@ -35,11 +35,11 @@ public class StaffAuthorizationManager implements AuthorizationManager<RequestAu
 			return new AuthorizationDecision(false);
 		}
 		
-		if(!permit(authentication.get().getName(), requestContext)) {
-			return new AuthorizationDecision(false);
+		if(permit(authentication.get().getName(), requestContext)) {
+			return new AuthorizationDecision(true);
 		}
 
-		return new AuthorizationDecision(true);
+		return new AuthorizationDecision(false);
 	}
 
 	private boolean permit(String username, RequestAuthorizationContext requestContext) {
@@ -56,17 +56,17 @@ public class StaffAuthorizationManager implements AuthorizationManager<RequestAu
 					.collect(Collectors.toMap(a -> a.path(), a -> a.permission().name()));
 		
 		var servletPath = requestContext.getRequest().getServletPath();
+
+		if(servletPath.startsWith("/staff/menu") 
+				|| servletPath.startsWith("/staff/permissions")) {
+			return true;
+		}
 		
 		var permission = getPermission(permissions, servletPath);
 		
 		if(StringUtils.hasLength(permission)) {
 			var requestMethod = requestContext.getRequest().getMethod();
 			return isMatch(permission, requestMethod);
-		}
-		
-		if(servletPath.startsWith("/staff/menu") 
-				|| servletPath.startsWith("/staff/permissions")) {
-			return true;
 		}
 		
 		return false;

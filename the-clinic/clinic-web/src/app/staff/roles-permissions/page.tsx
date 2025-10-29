@@ -93,8 +93,8 @@ function SearchResult({list} : {list : RoleListItem[]}) {
             </TableHeader>
 
             <TableBody>
-            {list.map(item => 
-                <TableRow key={item.id}>
+            {list.map((item, index) => 
+                <TableRow key={index}>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell>
